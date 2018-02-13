@@ -12,6 +12,8 @@
 @interface CLCMiscUtils : NSObject
 
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName;
++ (void)stopSoftRouterVm;
++ (void)startSoftRouterVm;
 
 + (NSString *)getInterfaceDns:(NSString *)interfaceName;
 

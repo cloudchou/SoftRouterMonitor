@@ -6,6 +6,8 @@
 //  Copyright © 2018 CloudChou. All rights reserved.
 //
 
+#import <ReactiveObjC/RACSignal.h>
+#import <ReactiveObjC/RACScheduler.h>
 #import "CLCMiscUtils.h"
 #import "CLCShellUtils.h"
 #import "CLCSoftRouterStatusMonitorView.h"
@@ -49,6 +51,25 @@
 }
 
 - (IBAction)onVmStatusSwitchClicked:(id)sender {
+    [self.switchVmButton setEnabled:NO];
+    [[RACScheduler scheduler] schedule:^{
+      BOOL started = [CLCMiscUtils isSoftRouterStarted];
+      if(started){
+          [self updateSwitchVmButtonTitle:@"正在停止..."];
+          [CLCMiscUtils startSoftRouterVm];
+          [self updateSoftRouterVmStatus];
+      }else{
+          [self updateSwitchVmButtonTitle:@"正在启动"];
+          [CLCMiscUtils stopSoftRouterVm];
+          [self updateSoftRouterVmStatus];
+      }
+    }];
+}
+
+-(void)updateSwitchVmButtonTitle:(NSString *)title{
+    dispatch_sync(dispatch_get_main_queue(), ^{
+      [self.switchVmButton setTitle:title];
+    });
 }
 
 - (IBAction)onSwitchNetToSoftRouter:(id)sender {
