@@ -10,6 +10,7 @@
 		06274392373D51C0E191DB690B3A601A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6090E8B876E5B87F61C5B676021FDA /* AppDelegate.m */; };
 		114F020F102E63708A26D583F80AE2DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D28B73BB3C52FCB63F364B85102FD /* Main.storyboard */; };
 		1480BAD8FBFE0BB01DAA136D9E0BC320 /* CLCMiscUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */; };
+		157179F88FD5B5A82F1E32CCBEEF5F76 /* Pods_SoftRouterMonitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3F8EF6D5BDDA86F466B420F64F298EB /* Pods_SoftRouterMonitor.framework */; };
 		2C6C018ACA8CFC859A6E190BB9023EAB /* CLCSoftRouterStatusMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F96A4FB6A44DE6D989A708B9900A28 /* CLCSoftRouterStatusMonitorView.m */; };
 		3BDB15B4DDC189943BA39BF696345C34 /* CLCStatusMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */; };
 		56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */; };
@@ -29,14 +30,17 @@
 		97F96A4FB6A44DE6D989A708B9900A28 /* CLCSoftRouterStatusMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCSoftRouterStatusMonitorView.m; sourceTree = "<group>"; };
 		98B560531C8F33D543254713318B2271 /* CLCSoftRouterStatusMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCSoftRouterStatusMonitorView.h; sourceTree = "<group>"; };
 		A24A45B1F8A982E95BBCEB15A987D94D /* CLCMiscUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCMiscUtils.h; sourceTree = "<group>"; };
+		A3F8EF6D5BDDA86F466B420F64F298EB /* Pods_SoftRouterMonitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SoftRouterMonitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F5F7E9707FC507A29EDD54D849018B /* SoftRouterMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftRouterMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AD6090E8B876E5B87F61C5B676021FDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		BBEEA138C488031DABDA001D60166228 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BC661642501FA7F82C74F56C1DC59037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCShellUtils.m; sourceTree = "<group>"; };
+		E300CBBA2124B3B0AC4762D7609EECD0 /* Pods-SoftRouterMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoftRouterMonitor.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-SoftRouterMonitor/Pods-SoftRouterMonitor.debug.xcconfig"; sourceTree = "<group>"; };
 		E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCMiscUtils.m; sourceTree = "<group>"; };
 		EBBBA65DB8BCBCC77B360CB51F0E7497 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		F285BD742D48A8315DA3A106321E4366 /* CLCShellUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCShellUtils.h; sourceTree = "<group>"; };
+		F32EF399BF93C63EB7F7D3744CECC0C6 /* Pods-SoftRouterMonitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoftRouterMonitor.release.xcconfig"; path = "../Pods/Target Support Files/Pods-SoftRouterMonitor/Pods-SoftRouterMonitor.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				157179F88FD5B5A82F1E32CCBEEF5F76 /* Pods_SoftRouterMonitor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,17 +58,11 @@
 		20479C5DCC766F357D4EE37BCCED1294 = {
 			isa = PBXGroup;
 			children = (
+				80B4CAAEA7ED00EDC5FE299340BFAE78 /* Frameworks */,
+				A0BF408C5727DC7428EF70B0B1510C2D /* Pods */,
 				949EBD6053DECDA252FBE6D98625E8A5 /* Products */,
 				8F1F0C90A68D4FD9B126A76E7084B87A /* SoftRouterMonitor */,
 			);
-			sourceTree = "<group>";
-		};
-		949EBD6053DECDA252FBE6D98625E8A5 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				A6F5F7E9707FC507A29EDD54D849018B /* SoftRouterMonitor.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		8F1F0C90A68D4FD9B126A76E7084B87A /* SoftRouterMonitor */ = {
@@ -90,6 +89,31 @@
 			path = SoftRouterMonitor;
 			sourceTree = "<group>";
 		};
+		949EBD6053DECDA252FBE6D98625E8A5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A6F5F7E9707FC507A29EDD54D849018B /* SoftRouterMonitor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		80B4CAAEA7ED00EDC5FE299340BFAE78 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A3F8EF6D5BDDA86F466B420F64F298EB /* Pods_SoftRouterMonitor.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A0BF408C5727DC7428EF70B0B1510C2D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E300CBBA2124B3B0AC4762D7609EECD0 /* Pods-SoftRouterMonitor.debug.xcconfig */,
+				F32EF399BF93C63EB7F7D3744CECC0C6 /* Pods-SoftRouterMonitor.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -97,9 +121,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D7434C1D341ED8577F617D2EF5B4567C /* Build configuration list for PBXNativeTarget "SoftRouterMonitor" */;
 			buildPhases = (
+				2D077CA3471D06DF0F8CEFFB54ADB28B /* [CP] Check Pods Manifest.lock */,
 				79E7B44DB1236688F7FFDDFF09485B01 /* Sources */,
 				2DB0BA307AAA22BB2F14994098FAE499 /* Frameworks */,
 				7875ED4DE3CB6120A87F04293CC24973 /* Resources */,
+				26142D80B9ADD6893DCE04D4ECCC591B /* [CP] Embed Pods Frameworks */,
+				36C5A2272535D08FD9F14BD6A17EED05 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -154,6 +181,62 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		26142D80B9ADD6893DCE04D4ECCC591B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/../Pods/Target Support Files/Pods-SoftRouterMonitor/Pods-SoftRouterMonitor-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/ReactiveObjC/ReactiveObjC.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveObjC.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-SoftRouterMonitor/Pods-SoftRouterMonitor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D077CA3471D06DF0F8CEFFB54ADB28B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SoftRouterMonitor-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		36C5A2272535D08FD9F14BD6A17EED05 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-SoftRouterMonitor/Pods-SoftRouterMonitor-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		79E7B44DB1236688F7FFDDFF09485B01 /* Sources */ = {
@@ -239,6 +322,38 @@
 			};
 			name = Debug;
 		};
+		5379A9EDF81DED982A86D0F9E8E90698 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E300CBBA2124B3B0AC4762D7609EECD0 /* Pods-SoftRouterMonitor.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SoftRouterMonitor/SoftRouterMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = N82D23F8DN;
+				INFOPLIST_FILE = SoftRouterMonitor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudchou.SoftRouterMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		7050E1E3710C52758986A086D5CF25CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F32EF399BF93C63EB7F7D3744CECC0C6 /* Pods-SoftRouterMonitor.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SoftRouterMonitor/SoftRouterMonitor.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = N82D23F8DN;
+				INFOPLIST_FILE = SoftRouterMonitor/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.cloudchou.SoftRouterMonitor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		D98AA76500CCE7A6EC5DA56824FE234E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -287,53 +402,23 @@
 			};
 			name = Release;
 		};
-		5379A9EDF81DED982A86D0F9E8E90698 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SoftRouterMonitor/SoftRouterMonitor.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = N82D23F8DN;
-				INFOPLIST_FILE = SoftRouterMonitor/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cloudchou.SoftRouterMonitor;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		7050E1E3710C52758986A086D5CF25CD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = SoftRouterMonitor/SoftRouterMonitor.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = N82D23F8DN;
-				INFOPLIST_FILE = SoftRouterMonitor/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.cloudchou.SoftRouterMonitor;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E5C59AA9DFC0DEBDE52D31B008302D43 /* Build configuration list for PBXProject "SoftRouterMonitor" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4159BC7BC603A395B6F54BC60552A38F /* Debug */,
-				D98AA76500CCE7A6EC5DA56824FE234E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		D7434C1D341ED8577F617D2EF5B4567C /* Build configuration list for PBXNativeTarget "SoftRouterMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5379A9EDF81DED982A86D0F9E8E90698 /* Debug */,
 				7050E1E3710C52758986A086D5CF25CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E5C59AA9DFC0DEBDE52D31B008302D43 /* Build configuration list for PBXProject "SoftRouterMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4159BC7BC603A395B6F54BC60552A38F /* Debug */,
+				D98AA76500CCE7A6EC5DA56824FE234E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
