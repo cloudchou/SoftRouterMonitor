@@ -1,0 +1,31 @@
+#!/bin/bash
+#
+array=`git diff-index --cached --name-only HEAD`
+
+for name in ${array}
+do
+    if [[ ! -f $name ]] ; then
+       echo "$name is deleted. no need to format"
+       continue
+    fi  
+    extension=${name##*.}
+    if [[ ${extension} == "h" || ${extension} == "m" ]]; then
+      echo "try to format ${name}"
+      clang-format -i ${name} -style=file      
+      if [ $? -eq 0 ]; then
+        exec git add ${name}
+      	echo "clang format ok" ${name}
+      else
+        if [[ ${extension} == "m" ]]; then
+           echo "clang format object c failed"
+      	   exit 1
+        fi
+      fi
+    elif [[ ${extension} == "pbxproj" ]]; then
+       echo "try to xuniq ${name}"       
+       xunique ${name}
+       exec git add ${name}
+    fi
+done
+# exit 1
+# exec git add ./
