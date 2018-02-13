@@ -6,18 +6,18 @@
 //  Copyright © 2018 CloudChou. All rights reserved.
 //
 
-#import "CLCSoftRouterStatusMonitorView.h"
-#import "CLCShellUtils.h"
 #import "CLCMiscUtils.h"
+#import "CLCShellUtils.h"
+#import "CLCSoftRouterStatusMonitorView.h"
 
 @interface CLCSoftRouterStatusMonitorView ()
-@property (weak) IBOutlet NSTextField *vmStatusLabel;
-@property (weak) IBOutlet NSTextField *wifiDnsStatusLabel;
-@property (weak) IBOutlet NSTextField *usbDnsStatusLabel;
-@property (weak) IBOutlet NSTextField *defaultGatewayStatusLabel;
-@property (weak) IBOutlet NSTextField *softRouterForeignNetStatusLabel;
-@property (weak) IBOutlet NSTextField *softRouterHomeNetStatusLabel;
-@property (weak) IBOutlet NSButtonCell *switchVmButton;
+@property(weak) IBOutlet NSTextField *vmStatusLabel;
+@property(weak) IBOutlet NSTextField *wifiDnsStatusLabel;
+@property(weak) IBOutlet NSTextField *usbDnsStatusLabel;
+@property(weak) IBOutlet NSTextField *defaultGatewayStatusLabel;
+@property(weak) IBOutlet NSTextField *softRouterForeignNetStatusLabel;
+@property(weak) IBOutlet NSTextField *softRouterHomeNetStatusLabel;
+@property(weak) IBOutlet NSButtonCell *switchVmButton;
 
 @end
 
@@ -34,7 +34,11 @@
     [self updateSoftRouterVmStatus];
 }
 
--(void)restoreStatus{
+- (void)viewWillDisappear {
+    [super viewWillDisappear];
+}
+
+- (void)restoreStatus {
     [self.switchVmButton setEnabled:NO];
     [self.vmStatusLabel setStringValue:@"计算中..."];
     [self.wifiDnsStatusLabel setStringValue:@"计算中..."];
@@ -45,53 +49,50 @@
 }
 
 - (IBAction)onVmStatusSwitchClicked:(id)sender {
-
-    
 }
 
-
 - (IBAction)onSwitchNetToSoftRouter:(id)sender {
-    
 }
 
 - (IBAction)onSwitchNetToRealRouter:(id)sender {
-
 }
 
--(void)awakeFromNib{
-    [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown handler:^NSEvent * (NSEvent * _Nonnull aEvent) {
-        [self keyDown:aEvent];
-        return aEvent;
-    }];
-    [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged handler:^NSEvent * (NSEvent * _Nonnull aEvent) {
-        [self flagsChanged:aEvent];
-        return aEvent;
-    }];
+- (void)awakeFromNib {
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskKeyDown
+                                          handler:^NSEvent *(NSEvent *_Nonnull aEvent) {
+                                            [self keyDown:aEvent];
+                                            return aEvent;
+                                          }];
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskFlagsChanged
+                                          handler:^NSEvent *(NSEvent *_Nonnull aEvent) {
+                                            [self flagsChanged:aEvent];
+                                            return aEvent;
+                                          }];
 }
 
 - (void)keyDown:(NSEvent *)event {
     NSEventModifierFlags flags = NSEvent.modifierFlags & NSCommandKeyMask;
-    if (flags && event.keyCode == 12) // command +q
+    if (flags && event.keyCode == 12)  // command +q
     {
         [NSApplication.sharedApplication terminate:self];
     }
 }
-
 
 - (void)updateSoftRouterVmStatus {
     dispatch_queue_t bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(bgQueue, ^{
       BOOL started = [CLCMiscUtils isSoftRouterStarted];
       dispatch_sync(dispatch_get_main_queue(), ^{
-        if(started){
+        if (started) {
             [self.vmStatusLabel setStringValue:@"已启动"];
-        }else{
+            [self.switchVmButton setTitle:@"停止"];
+        } else {
             [self.vmStatusLabel setStringValue:@"已停止"];
+            [self.switchVmButton setTitle:@"启动"];
         }
         [self.switchVmButton setEnabled:YES];
       });
     });
 }
-
 
 @end
