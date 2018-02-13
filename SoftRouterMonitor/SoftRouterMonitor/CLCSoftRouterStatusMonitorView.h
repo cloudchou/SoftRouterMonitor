@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  CLCSoftRouterStatusMonitorView.h
 //  SoftRounterMonitor
 //
 //  Created by CloudChou on 13/02/2018.
@@ -8,8 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AppDelegate : NSObject <NSApplicationDelegate>
-
+@interface CLCSoftRouterStatusMonitorView : NSViewController
 
 @end
-

@@ -1,6 +1,6 @@
 //
 //  AppDelegate.m
-//  SoftRouterMonitor
+//  SoftRounterMonitor
 //
 //  Created by CloudChou on 13/02/2018.
 //  Copyright © 2018 CloudChou. All rights reserved.
@@ -18,10 +18,8 @@
     // Insert code here to initialize your application
 }
 
-
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     // Insert code here to tear down your application
 }
-
 
 @end
