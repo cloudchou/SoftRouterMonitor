@@ -7,28 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		619D674820333A61000EAE2C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 619D674720333A61000EAE2C /* AppDelegate.m */; };
-		619D674B20333A61000EAE2C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 619D674A20333A61000EAE2C /* ViewController.m */; };
-		619D674D20333A61000EAE2C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 619D674C20333A61000EAE2C /* Assets.xcassets */; };
-		619D675020333A61000EAE2C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 619D674E20333A61000EAE2C /* Main.storyboard */; };
-		619D675320333A61000EAE2C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 619D675220333A61000EAE2C /* main.m */; };
+		06274392373D51C0E191DB690B3A601A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AD6090E8B876E5B87F61C5B676021FDA /* AppDelegate.m */; };
+		114F020F102E63708A26D583F80AE2DE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D28B73BB3C52FCB63F364B85102FD /* Main.storyboard */; };
+		1480BAD8FBFE0BB01DAA136D9E0BC320 /* CLCMiscUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */; };
+		2C6C018ACA8CFC859A6E190BB9023EAB /* CLCSoftRouterStatusMonitorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 97F96A4FB6A44DE6D989A708B9900A28 /* CLCSoftRouterStatusMonitorView.m */; };
+		3BDB15B4DDC189943BA39BF696345C34 /* CLCStatusMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */; };
+		56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */; };
+		B6FCD2A1ACE94FF56CE6E5FB1313344A /* CLCShellUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */; };
+		C8507A3E9A71C3E42ED028F40662FF31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */; };
+		E1D7006D2743325815099D139CD63703 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BBEEA138C488031DABDA001D60166228 /* main.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		619D674320333A61000EAE2C /* SoftRouterMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftRouterMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		619D674620333A61000EAE2C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		619D674720333A61000EAE2C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		619D674920333A61000EAE2C /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		619D674A20333A61000EAE2C /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		619D674C20333A61000EAE2C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		619D674F20333A61000EAE2C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		619D675120333A61000EAE2C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		619D675220333A61000EAE2C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		619D675420333A61000EAE2C /* SoftRouterMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoftRouterMonitor.entitlements; sourceTree = "<group>"; };
+		09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		1B2DB6A28A726E3FBFA3F3EFCE104ADF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		49361524BB4F6A72E65D0FCD7F4C9375 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4BCE70EF39C17DE156EA79690C82A987 /* CLCStatusMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCStatusMenuController.h; sourceTree = "<group>"; };
+		5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCStatusMenuController.m; sourceTree = "<group>"; };
+		896C6E15E0C9B64EA4FF88BCDE80CD10 /* SoftRouterMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoftRouterMonitor.entitlements; sourceTree = "<group>"; };
+		97F96A4FB6A44DE6D989A708B9900A28 /* CLCSoftRouterStatusMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCSoftRouterStatusMonitorView.m; sourceTree = "<group>"; };
+		98B560531C8F33D543254713318B2271 /* CLCSoftRouterStatusMonitorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCSoftRouterStatusMonitorView.h; sourceTree = "<group>"; };
+		A24A45B1F8A982E95BBCEB15A987D94D /* CLCMiscUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCMiscUtils.h; sourceTree = "<group>"; };
+		A6F5F7E9707FC507A29EDD54D849018B /* SoftRouterMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SoftRouterMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AD6090E8B876E5B87F61C5B676021FDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		BBEEA138C488031DABDA001D60166228 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BC661642501FA7F82C74F56C1DC59037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCShellUtils.m; sourceTree = "<group>"; };
+		E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCMiscUtils.m; sourceTree = "<group>"; };
+		EBBBA65DB8BCBCC77B360CB51F0E7497 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		F285BD742D48A8315DA3A106321E4366 /* CLCShellUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCShellUtils.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		619D674020333A61000EAE2C /* Frameworks */ = {
+		2DB0BA307AAA22BB2F14994098FAE499 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -38,34 +50,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		619D673A20333A61000EAE2C = {
+		20479C5DCC766F357D4EE37BCCED1294 = {
 			isa = PBXGroup;
 			children = (
-				619D674520333A61000EAE2C /* SoftRouterMonitor */,
-				619D674420333A61000EAE2C /* Products */,
+				949EBD6053DECDA252FBE6D98625E8A5 /* Products */,
+				8F1F0C90A68D4FD9B126A76E7084B87A /* SoftRouterMonitor */,
 			);
 			sourceTree = "<group>";
 		};
-		619D674420333A61000EAE2C /* Products */ = {
+		949EBD6053DECDA252FBE6D98625E8A5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				619D674320333A61000EAE2C /* SoftRouterMonitor.app */,
+				A6F5F7E9707FC507A29EDD54D849018B /* SoftRouterMonitor.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		619D674520333A61000EAE2C /* SoftRouterMonitor */ = {
+		8F1F0C90A68D4FD9B126A76E7084B87A /* SoftRouterMonitor */ = {
 			isa = PBXGroup;
 			children = (
-				619D674620333A61000EAE2C /* AppDelegate.h */,
-				619D674720333A61000EAE2C /* AppDelegate.m */,
-				619D674920333A61000EAE2C /* ViewController.h */,
-				619D674A20333A61000EAE2C /* ViewController.m */,
-				619D674C20333A61000EAE2C /* Assets.xcassets */,
-				619D674E20333A61000EAE2C /* Main.storyboard */,
-				619D675120333A61000EAE2C /* Info.plist */,
-				619D675220333A61000EAE2C /* main.m */,
-				619D675420333A61000EAE2C /* SoftRouterMonitor.entitlements */,
+				1B2DB6A28A726E3FBFA3F3EFCE104ADF /* AppDelegate.h */,
+				AD6090E8B876E5B87F61C5B676021FDA /* AppDelegate.m */,
+				5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */,
+				A24A45B1F8A982E95BBCEB15A987D94D /* CLCMiscUtils.h */,
+				E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */,
+				F285BD742D48A8315DA3A106321E4366 /* CLCShellUtils.h */,
+				D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */,
+				98B560531C8F33D543254713318B2271 /* CLCSoftRouterStatusMonitorView.h */,
+				97F96A4FB6A44DE6D989A708B9900A28 /* CLCSoftRouterStatusMonitorView.m */,
+				4BCE70EF39C17DE156EA79690C82A987 /* CLCStatusMenuController.h */,
+				72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */,
+				BC661642501FA7F82C74F56C1DC59037 /* Info.plist */,
+				4C1D28B73BB3C52FCB63F364B85102FD /* Main.storyboard */,
+				896C6E15E0C9B64EA4FF88BCDE80CD10 /* SoftRouterMonitor.entitlements */,
+				EBBBA65DB8BCBCC77B360CB51F0E7497 /* ViewController.h */,
+				09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */,
+				BBEEA138C488031DABDA001D60166228 /* main.m */,
 			);
 			path = SoftRouterMonitor;
 			sourceTree = "<group>";
@@ -73,13 +93,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		619D674220333A61000EAE2C /* SoftRouterMonitor */ = {
+		3A9A50238DE25BBACF59C3781041140F /* SoftRouterMonitor */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 619D675720333A61000EAE2C /* Build configuration list for PBXNativeTarget "SoftRouterMonitor" */;
+			buildConfigurationList = D7434C1D341ED8577F617D2EF5B4567C /* Build configuration list for PBXNativeTarget "SoftRouterMonitor" */;
 			buildPhases = (
-				619D673F20333A61000EAE2C /* Sources */,
-				619D674020333A61000EAE2C /* Frameworks */,
-				619D674120333A61000EAE2C /* Resources */,
+				79E7B44DB1236688F7FFDDFF09485B01 /* Sources */,
+				2DB0BA307AAA22BB2F14994098FAE499 /* Frameworks */,
+				7875ED4DE3CB6120A87F04293CC24973 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -87,25 +107,25 @@
 			);
 			name = SoftRouterMonitor;
 			productName = SoftRouterMonitor;
-			productReference = 619D674320333A61000EAE2C /* SoftRouterMonitor.app */;
+			productReference = A6F5F7E9707FC507A29EDD54D849018B /* SoftRouterMonitor.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		619D673B20333A61000EAE2C /* Project object */ = {
+		A4936762ECF52459F90572B253A4F1F8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = CloudChou;
 				TargetAttributes = {
-					619D674220333A61000EAE2C = {
+					3A9A50238DE25BBACF59C3781041140F = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
-			buildConfigurationList = 619D673E20333A61000EAE2C /* Build configuration list for PBXProject "SoftRouterMonitor" */;
+			buildConfigurationList = E5C59AA9DFC0DEBDE52D31B008302D43 /* Build configuration list for PBXProject "SoftRouterMonitor" */;
 			compatibilityVersion = "Xcode 8.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -113,46 +133,50 @@
 				en,
 				Base,
 			);
-			mainGroup = 619D673A20333A61000EAE2C;
-			productRefGroup = 619D674420333A61000EAE2C /* Products */;
+			mainGroup = 20479C5DCC766F357D4EE37BCCED1294;
+			productRefGroup = 949EBD6053DECDA252FBE6D98625E8A5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				619D674220333A61000EAE2C /* SoftRouterMonitor */,
+				3A9A50238DE25BBACF59C3781041140F /* SoftRouterMonitor */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		619D674120333A61000EAE2C /* Resources */ = {
+		7875ED4DE3CB6120A87F04293CC24973 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				619D674D20333A61000EAE2C /* Assets.xcassets in Resources */,
-				619D675020333A61000EAE2C /* Main.storyboard in Resources */,
+				C8507A3E9A71C3E42ED028F40662FF31 /* Assets.xcassets in Resources */,
+				114F020F102E63708A26D583F80AE2DE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		619D673F20333A61000EAE2C /* Sources */ = {
+		79E7B44DB1236688F7FFDDFF09485B01 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				619D674B20333A61000EAE2C /* ViewController.m in Sources */,
-				619D675320333A61000EAE2C /* main.m in Sources */,
-				619D674820333A61000EAE2C /* AppDelegate.m in Sources */,
+				06274392373D51C0E191DB690B3A601A /* AppDelegate.m in Sources */,
+				1480BAD8FBFE0BB01DAA136D9E0BC320 /* CLCMiscUtils.m in Sources */,
+				B6FCD2A1ACE94FF56CE6E5FB1313344A /* CLCShellUtils.m in Sources */,
+				2C6C018ACA8CFC859A6E190BB9023EAB /* CLCSoftRouterStatusMonitorView.m in Sources */,
+				3BDB15B4DDC189943BA39BF696345C34 /* CLCStatusMenuController.m in Sources */,
+				56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */,
+				E1D7006D2743325815099D139CD63703 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		619D674E20333A61000EAE2C /* Main.storyboard */ = {
+		4C1D28B73BB3C52FCB63F364B85102FD /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				619D674F20333A61000EAE2C /* Base */,
+				49361524BB4F6A72E65D0FCD7F4C9375 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -160,7 +184,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		619D675520333A61000EAE2C /* Debug */ = {
+		4159BC7BC603A395B6F54BC60552A38F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -215,7 +239,7 @@
 			};
 			name = Debug;
 		};
-		619D675620333A61000EAE2C /* Release */ = {
+		D98AA76500CCE7A6EC5DA56824FE234E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -263,7 +287,7 @@
 			};
 			name = Release;
 		};
-		619D675820333A61000EAE2C /* Debug */ = {
+		5379A9EDF81DED982A86D0F9E8E90698 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -278,7 +302,7 @@
 			};
 			name = Debug;
 		};
-		619D675920333A61000EAE2C /* Release */ = {
+		7050E1E3710C52758986A086D5CF25CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -296,25 +320,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		619D673E20333A61000EAE2C /* Build configuration list for PBXProject "SoftRouterMonitor" */ = {
+		E5C59AA9DFC0DEBDE52D31B008302D43 /* Build configuration list for PBXProject "SoftRouterMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				619D675520333A61000EAE2C /* Debug */,
-				619D675620333A61000EAE2C /* Release */,
+				4159BC7BC603A395B6F54BC60552A38F /* Debug */,
+				D98AA76500CCE7A6EC5DA56824FE234E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		619D675720333A61000EAE2C /* Build configuration list for PBXNativeTarget "SoftRouterMonitor" */ = {
+		D7434C1D341ED8577F617D2EF5B4567C /* Build configuration list for PBXNativeTarget "SoftRouterMonitor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				619D675820333A61000EAE2C /* Debug */,
-				619D675920333A61000EAE2C /* Release */,
+				5379A9EDF81DED982A86D0F9E8E90698 /* Debug */,
+				7050E1E3710C52758986A086D5CF25CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 619D673B20333A61000EAE2C /* Project object */;
+	rootObject = A4936762ECF52459F90572B253A4F1F8 /* Project object */;
 }
