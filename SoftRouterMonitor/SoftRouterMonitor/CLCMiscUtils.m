@@ -106,4 +106,42 @@
     return [output containsString:@"200"];
 }
 
++ (void)connectNetToSoftRouter {
+    NSString *softRouterIp = @"192.168.100.1";
+    if ([self isInterfaceEnabled:INTERFACE_USB]) {
+        NSString *cmd =
+            [NSString stringWithFormat:@"sudo networksetup -setdnsservers %@ %@", INTERFACE_USB, softRouterIp];
+        [CLCShellUtils doShellScript:cmd];
+    } else if ([self isInterfaceEnabled:INTERFACE_WIFI]) {
+        NSString *cmd =
+            [NSString stringWithFormat:@"sudo networksetup -setdnsservers %@ %@", INTERFACE_WIFI, softRouterIp];
+        [CLCShellUtils doShellScript:cmd];
+    }
+    NSString *cmd = [NSString stringWithFormat:@"sudo route change default %@", softRouterIp];
+    [CLCShellUtils doShellScript:cmd];
+}
+
++ (void)connectNetToRealRouter {
+    NSString *cmd =
+        @"sudo sed -i -e 's/<string>192.168.100.1<\\/string>//g' "
+        @"/Library/Preferences/SystemConfiguration/preferences.plist";
+    [CLCShellUtils doShellScript:cmd];
+    NSString *gateway = @"";
+    if ([self isInterfaceEnabled:INTERFACE_USB]) {
+        NSString *interfaceStatusCmd = [NSString
+            stringWithFormat:@"networksetup  -getinfo '%@' | grep '^Router:'| awk '{print $2}'", INTERFACE_USB];
+        gateway = [CLCShellUtils doShellScript:interfaceStatusCmd];
+    } else if ([self isInterfaceEnabled:INTERFACE_WIFI]) {
+        NSString *interfaceStatusCmd = [NSString
+            stringWithFormat:@"networksetup  -getinfo '%@' | grep '^Router:'| awk '{print $2}'", INTERFACE_WIFI];
+        gateway = [CLCShellUtils doShellScript:interfaceStatusCmd];
+    }
+    if (![gateway isEqualToString:@""]) {
+        cmd = [NSString stringWithFormat:@"sudo route change default %@", gateway];
+        [CLCShellUtils doShellScript:cmd];
+    } else {
+        DDLogError(@"no usb or wifi net connected");
+    }
+}
+
 @end

@@ -1,10 +1,9 @@
 
+#import "CLCMiscUtils.h"
 #import "CLCSoftRouterManager.h"
 #import "ReactiveObjC/ReactiveObjC.h"
-#import "CLCMiscUtils.h"
 
 @implementation CLCSoftRouterManager {
-
 }
 
 + (instancetype)instance {
@@ -18,20 +17,16 @@
     return instance;
 }
 
-- (void)startSoftRouterVm {
-
-}
-
 - (void)toggleSoftRouterVm {
-    if(self.operateStatus==SoftRouterOperateStatusNone){
+    if (self.operateStatus == SoftRouterOperateStatusNone) {
         self.operateStatus = SoftRouterOperateStatusComputing;
         [[RACScheduler scheduler] schedule:^{
           BOOL started = [CLCMiscUtils isSoftRouterStarted];
-          if(started){
+          if (started) {
               self.operateStatus = SoftRouterOperateStatusStopping;
               [CLCMiscUtils stopSoftRouterVm];
               self.operateStatus = SoftRouterOperateStatusNone;
-          }else{
+          } else {
               self.operateStatus = SoftRouterOperateStatusStarting;
               [CLCMiscUtils startSoftRouterVm];
               [CLCMiscUtils waitForSoftRouterVmStarted:10];
@@ -41,16 +36,24 @@
     }
 }
 
-- (void)stopSoftRouterVm {
-
-}
-
 - (void)connectNetToSoftRouter {
-
+    if (self.operateStatus == SoftRouterOperateStatusNone) {
+        self.operateStatus = SoftRouterOperateStatusConnectingToSoftRouter;
+        [[RACScheduler scheduler] schedule:^{
+          [CLCMiscUtils connectNetToSoftRouter];
+          self.operateStatus = SoftRouterOperateStatusNone;
+        }];
+    }
 }
 
 - (void)connectNetToRealRouter {
-
+    if (self.operateStatus == SoftRouterOperateStatusNone) {
+        self.operateStatus = SoftRouterOperateStatusConnectingToRealRouter;
+        [[RACScheduler scheduler] schedule:^{
+          [CLCMiscUtils connectNetToRealRouter];
+          self.operateStatus = SoftRouterOperateStatusNone;
+        }];
+    }
 }
 
 @end

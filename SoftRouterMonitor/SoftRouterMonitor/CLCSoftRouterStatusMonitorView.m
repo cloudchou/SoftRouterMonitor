@@ -60,9 +60,11 @@
 }
 
 - (IBAction)onSwitchNetToSoftRouter:(id)sender {
+    [[CLCSoftRouterManager instance] connectNetToSoftRouter];
 }
 
 - (IBAction)onSwitchNetToRealRouter:(id)sender {
+    [[CLCSoftRouterManager instance] connectNetToRealRouter];
 }
 
 - (void)awakeFromNib {

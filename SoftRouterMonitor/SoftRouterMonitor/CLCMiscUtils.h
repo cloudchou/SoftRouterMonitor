@@ -11,6 +11,8 @@
 
 @interface CLCMiscUtils : NSObject
 
++ (void)connectNetToRealRouter;
++ (void)connectNetToSoftRouter;
 + (BOOL)isHomeNetOkay;
 + (BOOL)isForeignNetOkay;
 + (BOOL)isSoftRouterVmHomeNetOkay;
