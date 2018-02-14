@@ -11,6 +11,10 @@
 
 @interface CLCMiscUtils : NSObject
 
++ (BOOL)isHomeNetOkay;
++ (BOOL)isForeignNetOkay;
++ (BOOL)isSoftRouterVmHomeNetOkay;
++ (BOOL)isSoftRouterVmForeignNetOkay;
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout;
 
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName;

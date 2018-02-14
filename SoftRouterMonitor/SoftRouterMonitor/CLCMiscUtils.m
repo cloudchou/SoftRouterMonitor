@@ -77,4 +77,33 @@
     // https://www.google.com.tw"`
     return [CLCShellUtils doShellScript:@"sudo route  -n get default | grep gateway | cut -d':' -f 2 | tr -d ' '"];
 }
+
++ (BOOL)isSoftRouterVmForeignNetOkay {
+    NSString *cmd =
+        @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
+        @"https://www.google.com.tw'";
+    NSString *output = [CLCShellUtils doShellScript:cmd];
+    return [output containsString:@"200"];
+}
+
++ (BOOL)isSoftRouterVmHomeNetOkay {
+    NSString *cmd =
+        @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
+        @"https://www.baidu.com'";
+    NSString *output = [CLCShellUtils doShellScript:cmd];
+    return [output containsString:@"200"];
+}
+
++ (BOOL)isForeignNetOkay {
+    NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
+    NSString *output = [CLCShellUtils doShellScript:cmd];
+    return [output containsString:@"200"];
+}
+
++ (BOOL)isHomeNetOkay {
+    NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
+    NSString *output = [CLCShellUtils doShellScript:cmd];
+    return [output containsString:@"200"];
+}
+
 @end
