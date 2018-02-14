@@ -12,6 +12,20 @@
     return [output containsString:@"lede-v2.6-x64"];
 }
 
++ (void)waitForSoftRouterVmStarted:(NSInteger)timeout {
+    NSDate *timeoutDate= [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while(true){
+        NSString *output = [CLCShellUtils doShellScript:@"ping -c 1 192.168.100.1 -W 1"];
+        if(![output containsString:@"Host is down"]){
+            return;
+        }
+        sleep(1);
+        if([[NSDate date] timeIntervalSince1970] > [timeoutDate timeIntervalSince1970]){
+            return;
+        }
+    }
+}
+
 + (void)stopSoftRouterVm {
     //    NSString *cmd =@"/usr/local/bin/VBoxManage controlvm lede-v2.6-x64 savestate";
     //    [CLCShellUtils doShellScript:cmd];

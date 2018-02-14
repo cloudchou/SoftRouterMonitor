@@ -51,19 +51,10 @@
 }
 
 - (IBAction)onVmStatusSwitchClicked:(id)sender {
-    [self.switchVmButton setEnabled:NO];
-    [[RACScheduler scheduler] schedule:^{
-      BOOL started = [CLCMiscUtils isSoftRouterStarted];
-      if(started){
-          [self updateSwitchVmButtonTitle:@"正在停止..."];
-          [CLCMiscUtils stopSoftRouterVm];
-          [self updateSoftRouterVmStatus];
-      }else{
-          [self updateSwitchVmButtonTitle:@"正在启动"];
-          [CLCMiscUtils startSoftRouterVm];
-          [self updateSoftRouterVmStatus];
-      }
-    }];
+    [self updateSwitchVmButtonTitle:@"正在停止..."];
+    [self updateSoftRouterVmStatus];
+    [self updateSwitchVmButtonTitle:@"正在启动"];
+    [self updateSoftRouterVmStatus];
 }
 
 -(void)updateSwitchVmButtonTitle:(NSString *)title{

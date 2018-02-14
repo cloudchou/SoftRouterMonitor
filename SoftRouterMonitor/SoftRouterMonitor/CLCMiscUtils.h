@@ -11,8 +11,12 @@
 
 @interface CLCMiscUtils : NSObject
 
++ (void)waitForSoftRouterVmStarted:(NSInteger)timeout;
+
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName;
+
 + (void)stopSoftRouterVm;
+
 + (void)startSoftRouterVm;
 
 + (NSString *)getInterfaceDns:(NSString *)interfaceName;

@@ -20,7 +20,7 @@
     [task launch];
     NSData *data = [[pipe fileHandleForReading] readDataToEndOfFile];
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"shell cmd : %@ \noutput :\n %@",cmd, string);
+    DDLogVerbose(@"shell cmd : %@ \noutput :\n %@",cmd, string);
     return string;
 }
 

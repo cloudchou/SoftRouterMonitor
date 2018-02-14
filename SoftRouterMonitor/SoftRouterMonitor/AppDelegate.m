@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CLCLogger.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +17,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    [CLCLogger initCocoaLumberJackLog:@"SoftRouterMonitor"];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

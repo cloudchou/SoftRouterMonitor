@@ -1,0 +1,18 @@
+//
+//  prefix.pch.h
+//  SoftRouterMonitor
+//
+//  Created by CloudChou on 14/02/2018.
+//  Copyright © 2018 CloudChou. All rights reserved.
+//
+
+#ifndef prefix_pch_h
+#define prefix_pch_h
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wswift-name-attribute"
+#import <CocoaLumberjack/CocoaLumberjack.h>
+#pragma clang diagnostic pop
+
+#define ddLogLevel DDLogLevelVerbose
+#define USE_CONSOLE_COLOR
+#endif /* prefix_pch_h */
