@@ -20,7 +20,9 @@
 @property(nonatomic, weak) IBOutlet NSTextField *softRouterForeignNetStatusLabel;
 @property(nonatomic, weak) IBOutlet NSTextField *softRouterHomeNetStatusLabel;
 @property(nonatomic, weak) IBOutlet NSButtonCell *switchVmButton;
-@property(nonatomic, weak) RACDisposable *updateDisposable;
+@property(nonatomic, weak) RACDisposable *updateSoftRouterVmStatusDisposable;
+@property(nonatomic, weak) RACDisposable *updateUsbDnsStatusDisposable;
+@property(nonatomic, weak) RACDisposable *updateWifiDnsStatusDisposable;
 @end
 
 @implementation CLCSoftRouterStatusMonitorView
@@ -94,18 +96,18 @@
 
 - (void)updateSoftRouterVmStatus:(BOOL)started {
     SoftRouterOperateStatus operateStatus = [CLCSoftRouterManager instance].operateStatus;
-    if(operateStatus==SoftRouterOperateStatusStarting){
+    if (operateStatus == SoftRouterOperateStatusStarting) {
         [self.vmStatusLabel setStringValue:@"启动中..."];
         [self.switchVmButton setTitle:@"启动中"];
         [self.switchVmButton setEnabled:NO];
-    }else if(operateStatus==SoftRouterOperateStatusStopping){
+    } else if (operateStatus == SoftRouterOperateStatusStopping) {
         [self.vmStatusLabel setStringValue:@"停止中..."];
         [self.switchVmButton setTitle:@"停止中"];
         [self.switchVmButton setEnabled:NO];
-    }else if(operateStatus==SoftRouterOperateStatusComputing){
-//        [self.switchVmButton setTitle:@"操作中..."];
+    } else if (operateStatus == SoftRouterOperateStatusComputing) {
+        //        [self.switchVmButton setTitle:@"操作中..."];
         [self.switchVmButton setEnabled:NO];
-    }else{
+    } else {
         if (started) {
             [self.vmStatusLabel setStringValue:@"已启动"];
             [self.switchVmButton setTitle:@"停止"];
@@ -118,31 +120,81 @@
 }
 
 - (void)monitorToUpdateAllViews {
-    RACSignal *timeSignal = [self timeSignal];
+    [self monitorToUpdateSoftRouterVmStatus];
+    RACSignal *timeSignal = [self timeSignal:2];
+    [self monitorToUpdateUsbDnsStatus:timeSignal];
+    [self monitorToUpdateWifiDnsStatus:timeSignal];
+}
+
+- (void)monitorToUpdateWifiDnsStatus:(RACSignal *)timeSignal {
+    self.updateWifiDnsStatusDisposable = [[timeSignal map:^id(id value) {
+      NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
+      BOOL isInterfaceEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_WIFI];
+      return [RACTwoTuple pack:@(isInterfaceEnabled):wifiDns];
+    }] subscribeNext:^(RACTwoTuple *x) {
+      NSNumber *enabled = x.first;
+      [self updateNetDnsStatus:self.wifiDnsStatusLabel isEnabled:enabled.boolValue dnsStr:x.second];
+    }];
+}
+- (void)monitorToUpdateUsbDnsStatus:(RACSignal *)timeSignal {
+    self.updateUsbDnsStatusDisposable = [[timeSignal map:^id(id value) {
+      NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
+      BOOL isInterfaceEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_USB];
+      return [RACTwoTuple pack:@(isInterfaceEnabled):usbDns];
+    }] subscribeNext:^(RACTwoTuple *x) {
+      NSNumber *enabled = x.first;
+      [self updateNetDnsStatus:self.usbDnsStatusLabel isEnabled:enabled.boolValue dnsStr:x.second];
+    }];
+}
+- (void)monitorToUpdateSoftRouterVmStatus {
+    RACSignal *timeSignal = [self timeSignal:5];
     RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
-    self.updateDisposable = [[[[[RACSignal combineLatest:@[ timeSignal, opStatusSignal ]]
+    self.updateSoftRouterVmStatusDisposable = [[[[[RACSignal combineLatest:@[ timeSignal, opStatusSignal ]]
         deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *value) {
       BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
+      NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
       return @(softRouterStarted);
     }] deliverOnMainThread] subscribeNext:^(NSNumber *value) {
-      [self updateSoftRouterVmStatus:value.boolValue];
+      [self updateSoftRouterVmStatus:(value.boolValue)];
     }];
 }
 
-- (void)stopUpdateTask {
-    if (self.updateDisposable != nil) {
-        [self.updateDisposable dispose];
-        self.updateDisposable = nil;
+- (void)updateNetDnsStatus:(NSTextField *)textField isEnabled:(BOOL)isEnabled dnsStr:(NSString *)dnsStr {
+    if (!isEnabled) {
+        [textField setStringValue:@"Interface Not Connected"];
+    } else {
+        if ([dnsStr containsString:@"192.168.100.1"]) {
+            [textField setStringValue:@"Interface Not Connected"];
+        } else if ([dnsStr containsString:@"There aren't any DNS Servers set on"]) {
+            [textField setStringValue:@"Default"];
+        } else {
+            [textField setStringValue:[NSString stringWithFormat:@"%@", dnsStr]];
+        }
     }
 }
 
-- (RACSignal<NSDate *> *)timeSignal {
+- (void)stopUpdateTask {
+    if (self.updateSoftRouterVmStatusDisposable != nil) {
+        [self.updateSoftRouterVmStatusDisposable dispose];
+        self.updateSoftRouterVmStatusDisposable = nil;
+    }
+    if (self.updateWifiDnsStatusDisposable != nil) {
+        [self.updateWifiDnsStatusDisposable dispose];
+        self.updateWifiDnsStatusDisposable = nil;
+    }
+    if (self.updateUsbDnsStatusDisposable != nil) {
+        [self.updateUsbDnsStatusDisposable dispose];
+        self.updateUsbDnsStatusDisposable = nil;
+    }
+}
+
+- (RACSignal<NSDate *> *)timeSignal:(NSInteger)timeInterval {
     RACSignal *coldSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
       [subscriber sendNext:[NSDate date]];
       [subscriber sendCompleted];
       return nil;
     }];
-    RACSignal *hotSignal = [RACSignal interval:5 onScheduler:[RACScheduler scheduler] withLeeway:0];
+    RACSignal *hotSignal = [RACSignal interval:timeInterval onScheduler:[RACScheduler scheduler] withLeeway:0];
     return [RACSignal merge:@[ coldSignal, hotSignal ]];
 }
 

@@ -174,7 +174,7 @@
                                 </buttonCell>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exF-CW-Gzb">
-                                <rect key="frame" x="180" y="191" width="50" height="17"/>
+                                <rect key="frame" x="180" y="191" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="hjV-C8-0cb">
                                     <font key="font" metaFont="system"/>
@@ -183,7 +183,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZFU-N7-15y">
-                                <rect key="frame" x="180" y="166" width="50" height="17"/>
+                                <rect key="frame" x="180" y="166" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="goy-U6-LkH">
                                     <font key="font" metaFont="system"/>
@@ -192,7 +192,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v24-9X-7ja">
-                                <rect key="frame" x="180" y="141" width="50" height="17"/>
+                                <rect key="frame" x="180" y="141" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="xHC-Qm-upX">
                                     <font key="font" metaFont="system"/>
@@ -201,7 +201,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qeW-6k-upC">
-                                <rect key="frame" x="180" y="115" width="50" height="17"/>
+                                <rect key="frame" x="180" y="115" width="163" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="Ko9-to-YZQ">
                                     <font key="font" metaFont="system"/>
@@ -210,7 +210,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEi-0g-zmy">
-                                <rect key="frame" x="180" y="90" width="50" height="17"/>
+                                <rect key="frame" x="180" y="90" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="qq0-Wj-QgI">
                                     <font key="font" metaFont="system"/>
