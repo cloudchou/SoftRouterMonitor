@@ -6,21 +6,21 @@
 //  Copyright © 2018 CloudChou. All rights reserved.
 //
 
-#import <ReactiveObjC/RACSignal.h>
-#import <ReactiveObjC/RACScheduler.h>
+#import <ReactiveObjC/ReactiveObjC.h>
 #import "CLCMiscUtils.h"
 #import "CLCShellUtils.h"
+#import "CLCSoftRouterManager.h"
 #import "CLCSoftRouterStatusMonitorView.h"
 
 @interface CLCSoftRouterStatusMonitorView ()
-@property(weak) IBOutlet NSTextField *vmStatusLabel;
-@property(weak) IBOutlet NSTextField *wifiDnsStatusLabel;
-@property(weak) IBOutlet NSTextField *usbDnsStatusLabel;
-@property(weak) IBOutlet NSTextField *defaultGatewayStatusLabel;
-@property(weak) IBOutlet NSTextField *softRouterForeignNetStatusLabel;
-@property(weak) IBOutlet NSTextField *softRouterHomeNetStatusLabel;
-@property(weak) IBOutlet NSButtonCell *switchVmButton;
-
+@property(nonatomic, weak) IBOutlet NSTextField *vmStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *wifiDnsStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *usbDnsStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *defaultGatewayStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *softRouterForeignNetStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *softRouterHomeNetStatusLabel;
+@property(nonatomic, weak) IBOutlet NSButtonCell *switchVmButton;
+@property(nonatomic, weak) RACDisposable *updateDisposable;
 @end
 
 @implementation CLCSoftRouterStatusMonitorView
@@ -33,11 +33,12 @@
 - (void)viewWillAppear {
     [super viewWillAppear];
     [self restoreStatus];
-    [self updateSoftRouterVmStatus];
+    [self monitorToUpdateAllViews];
 }
 
 - (void)viewWillDisappear {
     [super viewWillDisappear];
+    [self stopUpdateTask];
 }
 
 - (void)restoreStatus {
@@ -51,13 +52,14 @@
 }
 
 - (IBAction)onVmStatusSwitchClicked:(id)sender {
-    [self updateSwitchVmButtonTitle:@"正在停止..."];
-    [self updateSoftRouterVmStatus];
-    [self updateSwitchVmButtonTitle:@"正在启动"];
-    [self updateSoftRouterVmStatus];
+    [[CLCSoftRouterManager instance] toggleSoftRouterVm];
+    //    [self updateSwitchVmButtonTitle:@"正在停止..."];
+    //    [self updateSoftRouterVmStatus];
+    //    [self updateSwitchVmButtonTitle:@"正在启动"];
+    //    [self updateSoftRouterVmStatus];
 }
 
--(void)updateSwitchVmButtonTitle:(NSString *)title{
+- (void)updateSwitchVmButtonTitle:(NSString *)title {
     dispatch_sync(dispatch_get_main_queue(), ^{
       [self.switchVmButton setTitle:title];
     });
@@ -90,11 +92,20 @@
     }
 }
 
-- (void)updateSoftRouterVmStatus {
-    dispatch_queue_t bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
-    dispatch_async(bgQueue, ^{
-      BOOL started = [CLCMiscUtils isSoftRouterStarted];
-      dispatch_sync(dispatch_get_main_queue(), ^{
+- (void)updateSoftRouterVmStatus:(BOOL)started {
+    SoftRouterOperateStatus operateStatus = [CLCSoftRouterManager instance].operateStatus;
+    if(operateStatus==SoftRouterOperateStatusStarting){
+        [self.vmStatusLabel setStringValue:@"启动中..."];
+        [self.switchVmButton setTitle:@"启动中"];
+        [self.switchVmButton setEnabled:NO];
+    }else if(operateStatus==SoftRouterOperateStatusStopping){
+        [self.vmStatusLabel setStringValue:@"停止中..."];
+        [self.switchVmButton setTitle:@"停止中"];
+        [self.switchVmButton setEnabled:NO];
+    }else if(operateStatus==SoftRouterOperateStatusComputing){
+//        [self.switchVmButton setTitle:@"操作中..."];
+        [self.switchVmButton setEnabled:NO];
+    }else{
         if (started) {
             [self.vmStatusLabel setStringValue:@"已启动"];
             [self.switchVmButton setTitle:@"停止"];
@@ -103,8 +114,36 @@
             [self.switchVmButton setTitle:@"启动"];
         }
         [self.switchVmButton setEnabled:YES];
-      });
-    });
+    }
+}
+
+- (void)monitorToUpdateAllViews {
+    RACSignal *timeSignal = [self timeSignal];
+    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    self.updateDisposable = [[[[[RACSignal combineLatest:@[ timeSignal, opStatusSignal ]]
+        deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *value) {
+      BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
+      return @(softRouterStarted);
+    }] deliverOnMainThread] subscribeNext:^(NSNumber *value) {
+      [self updateSoftRouterVmStatus:value.boolValue];
+    }];
+}
+
+- (void)stopUpdateTask {
+    if (self.updateDisposable != nil) {
+        [self.updateDisposable dispose];
+        self.updateDisposable = nil;
+    }
+}
+
+- (RACSignal<NSDate *> *)timeSignal {
+    RACSignal *coldSignal = [RACSignal createSignal:^RACDisposable *(id<RACSubscriber> subscriber) {
+      [subscriber sendNext:[NSDate date]];
+      [subscriber sendCompleted];
+      return nil;
+    }];
+    RACSignal *hotSignal = [RACSignal interval:5 onScheduler:[RACScheduler scheduler] withLeeway:0];
+    return [RACSignal merge:@[ coldSignal, hotSignal ]];
 }
 
 @end

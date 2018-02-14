@@ -13,14 +13,18 @@
 }
 
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout {
-    NSDate *timeoutDate= [NSDate dateWithTimeIntervalSinceNow:timeout];
-    while(true){
+    DDLogVerbose(@"waitForSoftRouterVmStarted");
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (true) {
+        DDLogVerbose(@"test soft router vm is started");
         NSString *output = [CLCShellUtils doShellScript:@"ping -c 1 192.168.100.1 -W 1"];
-        if(![output containsString:@"Host is down"]){
+        if (![output containsString:@"Host is down"]) {
             return;
         }
         sleep(1);
-        if([[NSDate date] timeIntervalSince1970] > [timeoutDate timeIntervalSince1970]){
+        DDLogDebug(@"soft router vm is not  started");
+        if ([[NSDate date] timeIntervalSince1970] > [timeoutDate timeIntervalSince1970]) {
+            DDLogError(@"soft router vm is not started. and time out");
             return;
         }
     }
@@ -52,8 +56,7 @@
         [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 none"];
         [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 none"];
     }
-    [CLCShellUtils doShellScript:@"nohup /usr/local/bin/VBoxHeadless -s lede-v2.6-x64 &"];
-    sleep(1);
+    [CLCShellUtils doShellScript:@"nohup /usr/local/bin/VBoxHeadless -s lede-v2.6-x64 &" waitForOutput:NO];
 }
 
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName {

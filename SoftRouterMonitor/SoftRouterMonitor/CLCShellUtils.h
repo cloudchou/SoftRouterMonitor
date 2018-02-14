@@ -7,5 +7,6 @@
 #import <Foundation/Foundation.h>
 
 @interface CLCShellUtils : NSObject
++ (NSString *)doShellScript:(NSString *)cmd waitForOutput:(BOOL)waitForOutput;
 + (NSString *)doShellScript:(NSString *)cmd;
 @end
