@@ -56,11 +56,11 @@
       BOOL started = [CLCMiscUtils isSoftRouterStarted];
       if(started){
           [self updateSwitchVmButtonTitle:@"正在停止..."];
-          [CLCMiscUtils startSoftRouterVm];
+          [CLCMiscUtils stopSoftRouterVm];
           [self updateSoftRouterVmStatus];
       }else{
           [self updateSwitchVmButtonTitle:@"正在启动"];
-          [CLCMiscUtils stopSoftRouterVm];
+          [CLCMiscUtils startSoftRouterVm];
           [self updateSoftRouterVmStatus];
       }
     }];
