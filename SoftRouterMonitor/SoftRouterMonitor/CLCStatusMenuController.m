@@ -1,7 +1,7 @@
 
-#import "CLCStatusMenuController.h"
-#import "CLCShellUtils.h"
 #import "CLCMiscUtils.h"
+#import "CLCShellUtils.h"
+#import "CLCStatusMenuController.h"
 
 @interface CLCStatusMenuController ()
 
@@ -64,7 +64,7 @@
     [defaultGatewayMenuItem setTitle:@"DefaultGateway:computing..."];
     dispatch_queue_t bgQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0);
     dispatch_async(bgQueue, ^{
-      NSString *output = [CLCShellUtils doShellScript:@"sudo route  -n get default | grep gateway | cut -d':' -f 2 | tr -d ' '"];
+      NSString *output = [CLCMiscUtils getDefaultGateway];
       dispatch_sync(dispatch_get_main_queue(), ^{
         if ([output containsString:@"192.168.100.1"]) {
             [defaultGatewayMenuItem setTitle:@"DefaultGateway:SoftRouter"];
@@ -83,12 +83,12 @@
       if (![CLCMiscUtils isInterfaceEnabled:interfaceName]) {
           newStatus = [NSString stringWithFormat:@"%@:%@ Not Connected", tag, tag];
       } else {
-          NSString *dns= [CLCMiscUtils getInterfaceDns:interfaceName];
+          NSString *dns = [CLCMiscUtils getInterfaceDns:interfaceName];
           if ([dns containsString:@"192.168.100.1"]) {
               newStatus = [NSString stringWithFormat:@"%@:SoftRouter", tag];
-          }else if ([dns containsString:@"There aren't any DNS Servers set on"]) {
+          } else if ([dns containsString:@"There aren't any DNS Servers set on"]) {
               newStatus = [NSString stringWithFormat:@"%@:Default", tag];
-          }  else {
+          } else {
               newStatus = [NSString stringWithFormat:@"%@:%@", tag, dns];
           }
       }
@@ -113,6 +113,5 @@
       });
     });
 }
-
 
 @end

@@ -23,6 +23,7 @@
 @property(nonatomic, weak) RACDisposable *updateSoftRouterVmStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateUsbDnsStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateWifiDnsStatusDisposable;
+@property(nonatomic, weak) RACDisposable *updateDefaultGatewayStatusDisposable;
 @end
 
 @implementation CLCSoftRouterStatusMonitorView
@@ -55,16 +56,6 @@
 
 - (IBAction)onVmStatusSwitchClicked:(id)sender {
     [[CLCSoftRouterManager instance] toggleSoftRouterVm];
-    //    [self updateSwitchVmButtonTitle:@"正在停止..."];
-    //    [self updateSoftRouterVmStatus];
-    //    [self updateSwitchVmButtonTitle:@"正在启动"];
-    //    [self updateSoftRouterVmStatus];
-}
-
-- (void)updateSwitchVmButtonTitle:(NSString *)title {
-    dispatch_sync(dispatch_get_main_queue(), ^{
-      [self.switchVmButton setTitle:title];
-    });
 }
 
 - (IBAction)onSwitchNetToSoftRouter:(id)sender {
@@ -124,6 +115,7 @@
     RACSignal *timeSignal = [self timeSignal:2];
     [self monitorToUpdateUsbDnsStatus:timeSignal];
     [self monitorToUpdateWifiDnsStatus:timeSignal];
+    [self monitorToUpdateDefaultGatewayStatus:timeSignal];
 }
 
 - (void)monitorToUpdateWifiDnsStatus:(RACSignal *)timeSignal {
@@ -136,6 +128,20 @@
       [self updateNetDnsStatus:self.wifiDnsStatusLabel isEnabled:enabled.boolValue dnsStr:x.second];
     }];
 }
+
+- (void)monitorToUpdateDefaultGatewayStatus:(RACSignal *)timeSignal {
+    self.updateDefaultGatewayStatusDisposable = [[timeSignal map:^id(id value) {
+      NSString *output = [CLCMiscUtils getDefaultGateway];
+      return output;
+    }] subscribeNext:^(NSString *x) {
+      if([x containsString:@"192.168.100.1"]){
+          [self.defaultGatewayStatusLabel setStringValue:@"SoftRouter"];
+      }else{
+          [self.defaultGatewayStatusLabel setStringValue:x];
+      }
+    }];
+}
+
 - (void)monitorToUpdateUsbDnsStatus:(RACSignal *)timeSignal {
     self.updateUsbDnsStatusDisposable = [[timeSignal map:^id(id value) {
       NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
@@ -185,6 +191,10 @@
     if (self.updateUsbDnsStatusDisposable != nil) {
         [self.updateUsbDnsStatusDisposable dispose];
         self.updateUsbDnsStatusDisposable = nil;
+    }
+    if (self.updateDefaultGatewayStatusDisposable != nil) {
+        [self.updateDefaultGatewayStatusDisposable dispose];
+        self.updateDefaultGatewayStatusDisposable = nil;
     }
 }
 

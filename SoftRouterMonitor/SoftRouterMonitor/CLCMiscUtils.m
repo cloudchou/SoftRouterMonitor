@@ -71,4 +71,10 @@
     NSString *output = [CLCShellUtils doShellScript:dnsServerCmd];
     return output;
 }
+
++ (NSString *)getDefaultGateway {
+    // status=`ssh root@192.168.100.1 "curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code}
+    // https://www.google.com.tw"`
+    return [CLCShellUtils doShellScript:@"sudo route  -n get default | grep gateway | cut -d':' -f 2 | tr -d ' '"];
+}
 @end
