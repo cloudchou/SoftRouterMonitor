@@ -233,7 +233,7 @@
         [textField setStringValue:@"Interface Not Connected"];
     } else {
         if ([dnsStr containsString:@"192.168.100.1"]) {
-            [textField setStringValue:@"Interface Not Connected"];
+            [textField setStringValue:@"Soft Router"];
         } else if ([dnsStr containsString:@"There aren't any DNS Servers set on"]) {
             [textField setStringValue:@"Default"];
         } else {
