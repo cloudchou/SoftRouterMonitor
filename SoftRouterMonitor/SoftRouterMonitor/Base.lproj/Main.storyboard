@@ -94,11 +94,11 @@
             <objects>
                 <viewController id="ERz-rt-uYZ" customClass="CLCSoftRouterStatusMonitorView" sceneMemberID="viewController">
                     <view key="view" id="hJq-TE-X8h">
-                        <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                        <rect key="frame" x="0.0" y="0.0" width="516" height="299"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fww-iS-oiF">
-                                <rect key="frame" x="37" y="218" width="93" height="17"/>
+                                <rect key="frame" x="37" y="247" width="93" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="SoftRouterVM:" id="Cg6-VP-Cya">
                                     <font key="font" metaFont="system"/>
@@ -107,7 +107,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A7P-cl-AnF">
-                                <rect key="frame" x="37" y="193" width="59" height="17"/>
+                                <rect key="frame" x="37" y="222" width="59" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="WifiDNS:" id="xHm-m9-DGE">
                                     <font key="font" metaFont="system"/>
@@ -116,7 +116,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gmH-wN-G36">
-                                <rect key="frame" x="37" y="166" width="62" height="17"/>
+                                <rect key="frame" x="37" y="195" width="62" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="USBDNS:" id="K6Q-Ds-1S8">
                                     <font key="font" metaFont="system"/>
@@ -125,7 +125,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eVH-as-vfh">
-                                <rect key="frame" x="180" y="218" width="50" height="17"/>
+                                <rect key="frame" x="180" y="247" width="50" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="ljv-B1-26s">
                                     <font key="font" metaFont="system"/>
@@ -134,7 +134,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wNp-Jm-EkE">
-                                <rect key="frame" x="37" y="115" width="101" height="17"/>
+                                <rect key="frame" x="37" y="144" width="101" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="软路由国外连接:" id="9eY-zp-LmT">
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
@@ -143,7 +143,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AoJ-Mk-46H">
-                                <rect key="frame" x="37" y="90" width="101" height="17"/>
+                                <rect key="frame" x="37" y="119" width="101" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="软路由国内连接:" id="6Pp-hQ-IbO">
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
@@ -152,7 +152,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ojm-SP-Kmn">
-                                <rect key="frame" x="239" y="42" width="160" height="32"/>
+                                <rect key="frame" x="244" y="13" width="160" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="一键切换至真实路由" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fHK-0Y-bM9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -163,7 +163,7 @@
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0Z-Rk-sbM">
-                                <rect key="frame" x="33" y="42" width="147" height="32"/>
+                                <rect key="frame" x="33" y="13" width="147" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="一键切换至软路由" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4Rm-ff-UeL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -174,7 +174,7 @@
                                 </buttonCell>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exF-CW-Gzb">
-                                <rect key="frame" x="180" y="191" width="152" height="17"/>
+                                <rect key="frame" x="180" y="220" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="hjV-C8-0cb">
                                     <font key="font" metaFont="system"/>
@@ -183,7 +183,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZFU-N7-15y">
-                                <rect key="frame" x="180" y="166" width="152" height="17"/>
+                                <rect key="frame" x="180" y="195" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="goy-U6-LkH">
                                     <font key="font" metaFont="system"/>
@@ -192,7 +192,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v24-9X-7ja">
-                                <rect key="frame" x="180" y="141" width="152" height="17"/>
+                                <rect key="frame" x="180" y="170" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="xHC-Qm-upX">
                                     <font key="font" metaFont="system"/>
@@ -201,7 +201,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qeW-6k-upC">
-                                <rect key="frame" x="180" y="115" width="163" height="17"/>
+                                <rect key="frame" x="180" y="144" width="163" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="Ko9-to-YZQ">
                                     <font key="font" metaFont="system"/>
@@ -210,7 +210,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qEi-0g-zmy">
-                                <rect key="frame" x="180" y="90" width="152" height="17"/>
+                                <rect key="frame" x="180" y="119" width="163" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="qq0-Wj-QgI">
                                     <font key="font" metaFont="system"/>
@@ -218,8 +218,44 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gnM-cJ-ZVc">
+                                <rect key="frame" x="37" y="94" width="88" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="主机国外连接:" id="L2z-6c-hVY">
+                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dEt-Pj-vtd">
+                                <rect key="frame" x="37" y="69" width="88" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="主机国内连接:" id="mv8-xx-KaU">
+                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yBx-3l-JwZ">
+                                <rect key="frame" x="180" y="94" width="163" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="4Br-yO-MLq">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CjJ-SW-9N2">
+                                <rect key="frame" x="180" y="69" width="163" height="17"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Started" id="Rbe-Tl-gsn">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dG2-kh-p3a">
-                                <rect key="frame" x="269" y="209" width="67" height="32"/>
+                                <rect key="frame" x="269" y="238" width="67" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="切换" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="x8D-B6-Dyi">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -230,7 +266,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xdI-Ao-z3z">
-                                <rect key="frame" x="37" y="141" width="104" height="17"/>
+                                <rect key="frame" x="37" y="170" width="104" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="DefaultGateway:" id="QrO-2D-74f">
                                     <font key="font" metaFont="system"/>
@@ -238,12 +274,27 @@
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hzk-zE-0Ml">
+                                <rect key="frame" x="342" y="238" width="160" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="打开虚拟机VPN设置" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DVm-fp-QgY">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="onOpenSoftRouterVmVpnSetting:" target="ERz-rt-uYZ" id="QtD-cL-szR"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
                         <outlet property="defaultGatewayStatusLabel" destination="v24-9X-7ja" id="HRj-wr-seF"/>
+                        <outlet property="foreignNetStatusLabel" destination="CjJ-SW-9N2" id="kci-cX-eRV"/>
+                        <outlet property="homeNetStatusLabel" destination="yBx-3l-JwZ" id="LI9-yL-NTu"/>
                         <outlet property="softRouterForeignNetStatusLabel" destination="qeW-6k-upC" id="Tpt-M2-MH8"/>
                         <outlet property="softRouterHomeNetStatusLabel" destination="qEi-0g-zmy" id="Sq8-eE-YF5"/>
+                        <outlet property="switchRealRouterButton" destination="Ojm-SP-Kmn" id="ZHK-oL-Cpe"/>
+                        <outlet property="switchSoftRouterVmButton" destination="w0Z-Rk-sbM" id="6aK-k5-040"/>
                         <outlet property="switchVmButton" destination="x8D-B6-Dyi" id="Ddi-ZW-ZAB"/>
                         <outlet property="usbDnsStatusLabel" destination="ZFU-N7-15y" id="L1F-5f-aAN"/>
                         <outlet property="vmStatusLabel" destination="eVH-as-vfh" id="I7w-dC-Ryq"/>
@@ -252,7 +303,7 @@
                 </viewController>
                 <customObject id="d1L-gk-XM2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-230" y="1119"/>
+            <point key="canvasLocation" x="-212" y="1133.5"/>
         </scene>
     </scenes>
 </document>

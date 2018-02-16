@@ -101,7 +101,7 @@
 }
 
 + (BOOL)isHomeNetOkay {
-    NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
+    NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.baidu.com";
     NSString *output = [CLCShellUtils doShellScript:cmd];
     return [output containsString:@"200"];
 }

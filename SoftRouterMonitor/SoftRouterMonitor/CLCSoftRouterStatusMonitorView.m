@@ -19,12 +19,18 @@
 @property(nonatomic, weak) IBOutlet NSTextField *defaultGatewayStatusLabel;
 @property(nonatomic, weak) IBOutlet NSTextField *softRouterForeignNetStatusLabel;
 @property(nonatomic, weak) IBOutlet NSTextField *softRouterHomeNetStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *homeNetStatusLabel;
+@property(nonatomic, weak) IBOutlet NSTextField *foreignNetStatusLabel;
 @property(nonatomic, weak) IBOutlet NSButtonCell *switchVmButton;
+@property(weak) IBOutlet NSButton *switchSoftRouterVmButton;
+@property(weak) IBOutlet NSButton *switchRealRouterButton;
+
 @property(nonatomic, weak) RACDisposable *updateSoftRouterVmStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateUsbDnsStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateWifiDnsStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateDefaultGatewayStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateNetOkStatusDisposable;
+@property(nonatomic, weak) RACDisposable *updateSwitchNetButtonStatusDisposable ;
 @end
 
 @implementation CLCSoftRouterStatusMonitorView
@@ -53,6 +59,8 @@
     [self.defaultGatewayStatusLabel setStringValue:@"计算中..."];
     [self.softRouterForeignNetStatusLabel setStringValue:@"计算中..."];
     [self.softRouterHomeNetStatusLabel setStringValue:@"计算中..."];
+    [self.homeNetStatusLabel setStringValue:@"计算中..."];
+    [self.foreignNetStatusLabel setStringValue:@"计算中..."];
 }
 
 - (IBAction)onVmStatusSwitchClicked:(id)sender {
@@ -65,6 +73,10 @@
 
 - (IBAction)onSwitchNetToRealRouter:(id)sender {
     [[CLCSoftRouterManager instance] connectNetToRealRouter];
+}
+- (IBAction)onOpenSoftRouterVmVpnSetting:(id)sender {
+    NSString *url = @"http://192.168.100.1/cgi-bin/luci//admin/vpn/shadowsocks";
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
 - (void)awakeFromNib {
@@ -115,16 +127,18 @@
 
 - (void)monitorToUpdateAllViews {
     [self monitorToUpdateSoftRouterVmStatus];
-    RACSignal *timeSignal = [self timeSignal:2];
-    [self monitorToUpdateUsbDnsStatus:timeSignal];
-    [self monitorToUpdateWifiDnsStatus:timeSignal];
-    [self monitorToUpdateDefaultGatewayStatus:timeSignal];
+    [self monitorToUpdateUsbDnsStatus];
+    [self monitorToUpdateWifiDnsStatus];
+    [self monitorToUpdateDefaultGatewayStatus];
     [self monitorToUpdateSoftRouterVmForeignNetStatus];
+    [self monitorToUpdateSwitchNetButtonStatus];
 }
 
 - (void)monitorToUpdateSoftRouterVmForeignNetStatus {
-    RACSignal *timeSignal = [self timeSignal:3];
-    RACSignal *vmForeignSignal = [[[timeSignal map:^id(id value) {
+    RACSignal<NSDate *> *timeSignal = [self timeSignal:3];
+    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
+    RACSignal *vmForeignSignal = [[[changeSignal map:^id(id value) {
       if ([CLCMiscUtils isSoftRouterStarted]) {
           BOOL isSoftRouterVmForeignNetOk = [CLCMiscUtils isSoftRouterVmForeignNetOkay];
           return [RACTwoTuple pack:@(YES):@(isSoftRouterVmForeignNetOk)];
@@ -144,7 +158,7 @@
           }
       }
     }];
-    RACSignal *vmHomeSignal = [[[timeSignal map:^id(id value) {
+    RACSignal *vmHomeSignal = [[[changeSignal map:^id(id value) {
       if ([CLCMiscUtils isSoftRouterStarted]) {
           BOOL isSoftRouterVmHomeNetOk = [CLCMiscUtils isSoftRouterVmHomeNetOkay];
           return [RACTwoTuple pack:@(YES):@(isSoftRouterVmHomeNetOk)];
@@ -164,17 +178,25 @@
           }
       }
     }];
-    RACSignal *foreignSignal = [[[timeSignal map:^id(id value) {
+    RACSignal *foreignSignal = [[[changeSignal map:^id(id value) {
       BOOL isForeignNetOk = [CLCMiscUtils isForeignNetOkay];
       return @(isForeignNetOk);
-    }] deliverOnMainThread] doNext:^(NSNumber *x){
-
+    }] deliverOnMainThread] doNext:^(NSNumber *x) {
+      if (x.boolValue) {
+          [self.foreignNetStatusLabel setStringValue:@"连接正常"];
+      } else {
+          [self.foreignNetStatusLabel setStringValue:@"连接失败"];
+      }
     }];
-    RACSignal *homeSignal = [[[timeSignal map:^id(id value) {
+    RACSignal *homeSignal = [[[changeSignal map:^id(id value) {
       BOOL isHomeNetOk = [CLCMiscUtils isHomeNetOkay];
       return @(isHomeNetOk);
-    }] deliverOnMainThread] doNext:^(NSNumber *x){
-
+    }] deliverOnMainThread] doNext:^(NSNumber *x) {
+      if (x.boolValue) {
+          [self.homeNetStatusLabel setStringValue:@"连接正常"];
+      } else {
+          [self.homeNetStatusLabel setStringValue:@"连接失败"];
+      }
     }];
     self.updateNetOkStatusDisposable = [[RACSignal
         combineLatest:@[ vmForeignSignal, vmHomeSignal, foreignSignal, homeSignal ]] subscribeNext:^(RACTuple *x) {
@@ -182,8 +204,11 @@
     }];
 }
 
-- (void)monitorToUpdateWifiDnsStatus:(RACSignal *)timeSignal {
-    self.updateWifiDnsStatusDisposable = [[timeSignal map:^id(id value) {
+- (void)monitorToUpdateWifiDnsStatus {
+    RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
+    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
+    self.updateWifiDnsStatusDisposable = [[changeSignal map:^id(id value) {
       NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
       BOOL isInterfaceEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_WIFI];
       return [RACTwoTuple pack:@(isInterfaceEnabled):wifiDns];
@@ -193,8 +218,11 @@
     }];
 }
 
-- (void)monitorToUpdateDefaultGatewayStatus:(RACSignal *)timeSignal {
-    self.updateDefaultGatewayStatusDisposable = [[timeSignal map:^id(id value) {
+- (void)monitorToUpdateDefaultGatewayStatus {
+    RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
+    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
+    self.updateDefaultGatewayStatusDisposable = [[changeSignal map:^id(id value) {
       NSString *output = [CLCMiscUtils getDefaultGateway];
       return output;
     }] subscribeNext:^(NSString *x) {
@@ -206,8 +234,11 @@
     }];
 }
 
-- (void)monitorToUpdateUsbDnsStatus:(RACSignal *)timeSignal {
-    self.updateUsbDnsStatusDisposable = [[timeSignal map:^id(id value) {
+- (void)monitorToUpdateUsbDnsStatus {
+    RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
+    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
+    self.updateUsbDnsStatusDisposable = [[changeSignal map:^id(id value) {
       NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
       BOOL isInterfaceEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_USB];
       return [RACTwoTuple pack:@(isInterfaceEnabled):usbDns];
@@ -226,6 +257,20 @@
     }] deliverOnMainThread] subscribeNext:^(NSNumber *value) {
       [self updateSoftRouterVmStatus:(value.boolValue)];
     }];
+}
+
+- (void)monitorToUpdateSwitchNetButtonStatus{
+    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    self.updateSwitchNetButtonStatusDisposable =
+        [[opStatusSignal deliverOnMainThread] subscribeNext:^(NSNumber *x) {
+          if (x.integerValue == SoftRouterOperateStatusNone) {
+              self.switchSoftRouterVmButton.enabled = YES;
+              self.switchRealRouterButton.enabled = YES;
+          } else {
+              self.switchSoftRouterVmButton.enabled = NO;
+              self.switchRealRouterButton.enabled = NO;
+          }
+        }];
 }
 
 - (void)updateNetDnsStatus:(NSTextField *)textField isEnabled:(BOOL)isEnabled dnsStr:(NSString *)dnsStr {
@@ -262,6 +307,10 @@
     if (self.updateNetOkStatusDisposable != nil) {
         [self.updateNetOkStatusDisposable dispose];
         self.updateNetOkStatusDisposable = nil;
+    }
+    if(self.updateSwitchNetButtonStatusDisposable!=nil){
+        [self.updateSwitchNetButtonStatusDisposable dispose];
+        self.updateSwitchNetButtonStatusDisposable = nil;
     }
 }
 
