@@ -289,8 +289,8 @@
                     </view>
                     <connections>
                         <outlet property="defaultGatewayStatusLabel" destination="v24-9X-7ja" id="HRj-wr-seF"/>
-                        <outlet property="foreignNetStatusLabel" destination="CjJ-SW-9N2" id="kci-cX-eRV"/>
-                        <outlet property="homeNetStatusLabel" destination="yBx-3l-JwZ" id="LI9-yL-NTu"/>
+                        <outlet property="foreignNetStatusLabel" destination="yBx-3l-JwZ" id="eQ6-jI-nJM"/>
+                        <outlet property="homeNetStatusLabel" destination="CjJ-SW-9N2" id="X61-8Q-DZl"/>
                         <outlet property="softRouterForeignNetStatusLabel" destination="qeW-6k-upC" id="Tpt-M2-MH8"/>
                         <outlet property="softRouterHomeNetStatusLabel" destination="qEi-0g-zmy" id="Sq8-eE-YF5"/>
                         <outlet property="switchRealRouterButton" destination="Ojm-SP-Kmn" id="ZHK-oL-Cpe"/>
