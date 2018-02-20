@@ -88,6 +88,13 @@
 - (IBAction)onSwitchNetToRealRouter:(id)sender {
     [[CLCSoftRouterManager instance] connectNetToRealRouter];
 }
+
+- (IBAction)openLogDir:(id)sender {
+    NSArray<NSString *> *logFilePaths = [DDFileLogger new].logFileManager.sortedLogFilePaths;
+    NSString *logDir = [logFilePaths[0] stringByDeletingLastPathComponent];
+    [[NSWorkspace sharedWorkspace] openFile:logDir];
+}
+
 - (IBAction)onOpenSoftRouterVmVpnSetting:(id)sender {
     NSString *url = @"http://192.168.100.1/cgi-bin/luci//admin/vpn/shadowsocks";
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];

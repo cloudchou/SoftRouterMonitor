@@ -46,6 +46,7 @@
                         <menuItem title="OperateStatus:None" id="iMH-kt-p6M">
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
+                        <menuItem isSeparatorItem="YES" id="UmS-EI-n1m"/>
                         <menuItem title="Open RouterKoolSS" id="ZnD-0c-BaT">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
@@ -64,7 +65,13 @@
                                 <action selector="switchToRealRouter:" target="4Hs-e1-gha" id="Lde-ky-sCc"/>
                             </connections>
                         </menuItem>
-                        <menuItem isSeparatorItem="YES" id="UmS-EI-n1m"/>
+                        <menuItem isSeparatorItem="YES" id="WyZ-52-h4w"/>
+                        <menuItem title="Open Run Log" id="9BI-fU-Gul">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="openRunLog:" target="4Hs-e1-gha" id="0f8-mw-f0D"/>
+                            </connections>
+                        </menuItem>
                         <menuItem title="Quit" keyEquivalent="q" id="8AJ-NJ-znP">
                             <connections>
                                 <action selector="quitApp:" target="4Hs-e1-gha" id="tvS-Ze-r9u"/>
@@ -164,7 +171,7 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ojm-SP-Kmn">
-                                <rect key="frame" x="244" y="13" width="160" height="32"/>
+                                <rect key="frame" x="203" y="13" width="160" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="一键切换至真实路由" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fHK-0Y-bM9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -300,6 +307,17 @@
                                     <outlet property="nextKeyView" destination="Ojm-SP-Kmn" id="qaN-K4-OLR"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PKX-Ib-b99">
+                                <rect key="frame" x="342" y="205" width="160" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="打开日志文件夹" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HjZ-eQ-IQD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="openLogDir:" target="ERz-rt-uYZ" id="Bdy-X7-DiE"/>
+                                </connections>
+                            </button>
                         </subviews>
                     </view>
                     <connections>
@@ -318,7 +336,7 @@
                 </viewController>
                 <customObject id="d1L-gk-XM2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-230" y="1103"/>
+            <point key="canvasLocation" x="-230" y="1102.5"/>
         </scene>
     </scenes>
 </document>

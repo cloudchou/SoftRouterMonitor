@@ -17,6 +17,13 @@
     [NSApplication.sharedApplication terminate:self];
 }
 
+- (IBAction)openRunLog:(id)sender {
+    NSArray<NSString *> *logFilePaths = [DDFileLogger new].logFileManager.sortedLogFilePaths;
+    NSString *logDir = [logFilePaths[0] stringByDeletingLastPathComponent];
+    [[NSWorkspace sharedWorkspace] openFile:logDir];
+//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+}
+
 - (IBAction)gotoSoftRouterStatusMonitorView:(id)sender {
     [self.mainWindowController showWindow:self];
 }
