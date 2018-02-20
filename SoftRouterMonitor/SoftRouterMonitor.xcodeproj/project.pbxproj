@@ -16,7 +16,9 @@
 		3BDB15B4DDC189943BA39BF696345C34 /* CLCStatusMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */; };
 		56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */; };
 		9E565D97B2044C185D9FC0B2A63162CE /* CLCLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 92205BA5F7F30857699BCC142F865E4D /* CLCLogFormatter.m */; };
+		AE0BCB6D6FE6006FE452861543B2617A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */; };
 		B6FCD2A1ACE94FF56CE6E5FB1313344A /* CLCShellUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */; };
+		B7D04D522F2D4F440098C4D58A5C0908 /* CLCNetInterfaceStatusManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D32489C59FE13161B021B5EADF51BF40 /* CLCNetInterfaceStatusManager.m */; };
 		C8507A3E9A71C3E42ED028F40662FF31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */; };
 		E1D7006D2743325815099D139CD63703 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BBEEA138C488031DABDA001D60166228 /* main.m */; };
 		F3F7AC24CF0FE60A054B240529656E16 /* CLCLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 747C40A38BD6A058DEF05A39B807E961 /* CLCLogger.m */; };
@@ -26,15 +28,18 @@
 		09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		1B2DB6A28A726E3FBFA3F3EFCE104ADF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		347A24842FC73DB0A50629939B35FEEC /* CLCSoftRouterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCSoftRouterManager.h; sourceTree = "<group>"; };
+		3C77117705B27920DFB4F7C6FC67B813 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		49361524BB4F6A72E65D0FCD7F4C9375 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4BCE70EF39C17DE156EA79690C82A987 /* CLCStatusMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCStatusMenuController.h; sourceTree = "<group>"; };
 		5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		708C287E60F17C3D319F73D7CFE55336 /* CLCLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCLogFormatter.h; sourceTree = "<group>"; };
 		72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCStatusMenuController.m; sourceTree = "<group>"; };
 		747C40A38BD6A058DEF05A39B807E961 /* CLCLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCLogger.m; sourceTree = "<group>"; };
 		7504916F3BD0A5CE23888246DF82DD6E /* prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prefix.pch; sourceTree = "<group>"; };
 		787108D7316B5580D40A5DC61440742E /* CLCSoftRouterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCSoftRouterManager.m; sourceTree = "<group>"; };
 		83CF74FDF85C54C46987BA86AF85D9E1 /* CLCLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCLogger.h; sourceTree = "<group>"; };
+		873FCA4233612A1D8DF2D652749A3620 /* CLCNetInterfaceStatusManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCNetInterfaceStatusManager.h; sourceTree = "<group>"; };
 		896C6E15E0C9B64EA4FF88BCDE80CD10 /* SoftRouterMonitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SoftRouterMonitor.entitlements; sourceTree = "<group>"; };
 		92205BA5F7F30857699BCC142F865E4D /* CLCLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCLogFormatter.m; sourceTree = "<group>"; };
 		97F96A4FB6A44DE6D989A708B9900A28 /* CLCSoftRouterStatusMonitorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCSoftRouterStatusMonitorView.m; sourceTree = "<group>"; };
@@ -45,6 +50,7 @@
 		AD6090E8B876E5B87F61C5B676021FDA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		BBEEA138C488031DABDA001D60166228 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		BC661642501FA7F82C74F56C1DC59037 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D32489C59FE13161B021B5EADF51BF40 /* CLCNetInterfaceStatusManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCNetInterfaceStatusManager.m; sourceTree = "<group>"; };
 		D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCShellUtils.m; sourceTree = "<group>"; };
 		E300CBBA2124B3B0AC4762D7609EECD0 /* Pods-SoftRouterMonitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SoftRouterMonitor.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-SoftRouterMonitor/Pods-SoftRouterMonitor.debug.xcconfig"; sourceTree = "<group>"; };
 		E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCMiscUtils.m; sourceTree = "<group>"; };
@@ -95,6 +101,8 @@
 				747C40A38BD6A058DEF05A39B807E961 /* CLCLogger.m */,
 				A24A45B1F8A982E95BBCEB15A987D94D /* CLCMiscUtils.h */,
 				E6FFE70B1B1A9001DC31FDE688ABCDA9 /* CLCMiscUtils.m */,
+				873FCA4233612A1D8DF2D652749A3620 /* CLCNetInterfaceStatusManager.h */,
+				D32489C59FE13161B021B5EADF51BF40 /* CLCNetInterfaceStatusManager.m */,
 				F285BD742D48A8315DA3A106321E4366 /* CLCShellUtils.h */,
 				D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */,
 				347A24842FC73DB0A50629939B35FEEC /* CLCSoftRouterManager.h */,
@@ -105,6 +113,8 @@
 				72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */,
 				BC661642501FA7F82C74F56C1DC59037 /* Info.plist */,
 				4C1D28B73BB3C52FCB63F364B85102FD /* Main.storyboard */,
+				3C77117705B27920DFB4F7C6FC67B813 /* Reachability.h */,
+				6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */,
 				896C6E15E0C9B64EA4FF88BCDE80CD10 /* SoftRouterMonitor.entitlements */,
 				EBBBA65DB8BCBCC77B360CB51F0E7497 /* ViewController.h */,
 				09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */,
@@ -264,10 +274,12 @@
 				9E565D97B2044C185D9FC0B2A63162CE /* CLCLogFormatter.m in Sources */,
 				F3F7AC24CF0FE60A054B240529656E16 /* CLCLogger.m in Sources */,
 				1480BAD8FBFE0BB01DAA136D9E0BC320 /* CLCMiscUtils.m in Sources */,
+				B7D04D522F2D4F440098C4D58A5C0908 /* CLCNetInterfaceStatusManager.m in Sources */,
 				B6FCD2A1ACE94FF56CE6E5FB1313344A /* CLCShellUtils.m in Sources */,
 				37EB25174D1F5838428839D25FA6C166 /* CLCSoftRouterManager.m in Sources */,
 				2C6C018ACA8CFC859A6E190BB9023EAB /* CLCSoftRouterStatusMonitorView.m in Sources */,
 				3BDB15B4DDC189943BA39BF696345C34 /* CLCStatusMenuController.m in Sources */,
+				AE0BCB6D6FE6006FE452861543B2617A /* Reachability.m in Sources */,
 				56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */,
 				E1D7006D2743325815099D139CD63703 /* main.m in Sources */,
 			);
