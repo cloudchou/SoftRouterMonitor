@@ -162,17 +162,6 @@
                                     <action selector="onSwitchNetToRealRouter:" target="ERz-rt-uYZ" id="bA2-bC-mAz"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0Z-Rk-sbM">
-                                <rect key="frame" x="33" y="13" width="147" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <buttonCell key="cell" type="push" title="一键切换至软路由" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4Rm-ff-UeL">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
-                                    <connections>
-                                        <action selector="onSwitchNetToSoftRouter:" target="ERz-rt-uYZ" id="5en-o7-xd9"/>
-                                    </connections>
-                                </buttonCell>
-                            </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="exF-CW-Gzb">
                                 <rect key="frame" x="180" y="220" width="152" height="17"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -280,9 +269,23 @@
                                 <buttonCell key="cell" type="push" title="打开虚拟机VPN设置" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DVm-fp-QgY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <connections>
+                                        <action selector="onOpenSoftRouterVmVpnSetting:" target="ERz-rt-uYZ" id="QtD-cL-szR"/>
+                                    </connections>
+                                </buttonCell>
+                            </button>
+                            <button focusRingType="exterior" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w0Z-Rk-sbM">
+                                <rect key="frame" x="33" y="13" width="147" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="一键切换至软路由" bezelStyle="rounded" alignment="center" borderStyle="border" focusRingType="exterior" imageScaling="proportionallyDown" inset="2" id="4Rm-ff-UeL">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <connections>
+                                        <action selector="onSwitchNetToSoftRouter:" target="ERz-rt-uYZ" id="5en-o7-xd9"/>
+                                    </connections>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="onOpenSoftRouterVmVpnSetting:" target="ERz-rt-uYZ" id="QtD-cL-szR"/>
+                                    <outlet property="nextKeyView" destination="Ojm-SP-Kmn" id="qaN-K4-OLR"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -303,7 +306,7 @@
                 </viewController>
                 <customObject id="d1L-gk-XM2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-212" y="1133.5"/>
+            <point key="canvasLocation" x="-230" y="1103"/>
         </scene>
     </scenes>
 </document>

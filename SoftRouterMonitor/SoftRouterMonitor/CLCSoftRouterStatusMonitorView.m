@@ -49,13 +49,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
+    [self.switchSoftRouterVmButton setKeyEquivalent:@"\r"];
+    //    [self.switchSoftRouterVmButton becomeFirstResponder];
 }
 
 - (void)viewWillAppear {
     [super viewWillAppear];
     [self restoreStatus];
     [self monitorToUpdateAllViews];
+    [self.view.window setInitialFirstResponder:self.switchSoftRouterVmButton];
 }
 
 - (void)viewWillDisappear {
@@ -163,10 +165,9 @@
       BOOL softRouterStarted = [CLCMiscUtils isSoftRouterDefaultGateWay];
       return @(softRouterStarted);
     }] distinctUntilChanged];
-    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[vmStatusSignal,routerChangeSignal,timeSignal]];
+    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[ vmStatusSignal, routerChangeSignal, timeSignal ]];
     [self monitorForeignNetStatus:changeSignal];
     [self monitorHomeNetStatus:changeSignal];
-
 }
 
 - (void)monitorVmForeignNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
@@ -179,8 +180,8 @@
       self.computingVmForeignNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingVmForeignNetStatus);
-    RACDisposable *disposable =
-        [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] subscribeNext:^(RACTuple *x) {
+    RACDisposable *disposable = [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]]
+        subscribeNext:^(RACTuple *x) {
           NSNumber *vmStatus = x.first;
           NSNumber *computingStatus = x.second;
           NSNumber *vmNetStatus = x.third;
@@ -211,8 +212,8 @@
       self.computingVmHomeNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingVmHomeNetStatus);
-    RACDisposable *disposable =
-        [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] subscribeNext:^(RACTuple *x) {
+    RACDisposable *disposable = [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]]
+        subscribeNext:^(RACTuple *x) {
           NSNumber *vmStatus = x.first;
           NSNumber *computingStatus = x.second;
           NSNumber *vmNetStatus = x.third;
@@ -233,7 +234,7 @@
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
 
-- (void)monitorForeignNetStatus:(RACSignal *)changeSignal{
+- (void)monitorForeignNetStatus:(RACSignal *)changeSignal {
     RACSignal *netStatusSignal = [[[changeSignal doNext:^(id x) {
       self.computingForeignNetStatus = YES;
     }] map:^id(id value) {
@@ -244,7 +245,7 @@
     }];
     RACSignal *computingSignal = RACObserve(self, computingForeignNetStatus);
     RACDisposable *disposable =
-        [[RACSignal combineLatest:@[computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
+        [[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
           NSNumber *computingStatus = x.first;
           NSNumber *netStatus = x.second;
           if (computingStatus.boolValue) {
@@ -260,7 +261,7 @@
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
 
-- (void)monitorHomeNetStatus:(RACSignal *)changeSignal{
+- (void)monitorHomeNetStatus:(RACSignal *)changeSignal {
     RACSignal *netStatusSignal = [[[changeSignal doNext:^(id x) {
       self.computingHomeNetStatus = YES;
     }] map:^id(id value) {
@@ -271,7 +272,7 @@
     }];
     RACSignal *computingSignal = RACObserve(self, computingHomeNetStatus);
     RACDisposable *disposable =
-        [[RACSignal combineLatest:@[computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
+        [[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
           NSNumber *computingStatus = x.first;
           NSNumber *netStatus = x.second;
           if (computingStatus.boolValue) {
@@ -286,7 +287,6 @@
         }];
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
-
 
 - (void)monitorToUpdateWifiDnsStatus {
     RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
