@@ -11,6 +11,8 @@
 
 @interface CLCMiscUtils : NSObject
 
++ (BOOL)isSoftRouterVmParamOkay;
++ (void)waitForSoftRouterHomeNetOk:(NSInteger)timeout;
 + (void)connectNetToRealRouter;
 + (void)connectNetToSoftRouter;
 + (BOOL)isHomeNetOkay;

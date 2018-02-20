@@ -19,6 +19,7 @@ typedef NS_ENUM(NSUInteger, SoftRouterOperateStatus) {
 @interface CLCSoftRouterManager : NSObject
 
 @property(nonatomic, assign) SoftRouterOperateStatus operateStatus;
+
 - (void)ensureConnectToHealthySoftRouter;
 
 + (instancetype)instance;
@@ -32,5 +33,7 @@ typedef NS_ENUM(NSUInteger, SoftRouterOperateStatus) {
 - (void)connectNetToSoftRouter;
 
 - (void)connectNetToRealRouter;
+
+- (void)ensureConnectToRealRouterAndStopSoftRouterVm;
 
 @end

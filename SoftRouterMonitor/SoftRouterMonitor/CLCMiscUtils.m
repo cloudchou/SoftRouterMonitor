@@ -59,6 +59,23 @@
     [CLCShellUtils doShellScript:@"nohup /usr/local/bin/VBoxHeadless -s lede-v2.6-x64 &" waitForOutput:NO];
 }
 
++ (BOOL)isSoftRouterVmParamOkay {
+    BOOL wifiEnabled = [self isInterfaceEnabled:INTERFACE_WIFI];
+    BOOL usbEnabled = [self isInterfaceEnabled:INTERFACE_USB];
+    BOOL vmWifiEnabled = [self isInterfaceEnabled:@"en0"];
+    BOOL vmUsbEnabled = [self isInterfaceEnabled:@"en7"];
+    if(wifiEnabled!=vmWifiEnabled)
+        return NO;
+    return usbEnabled == vmUsbEnabled;
+}
+
++(BOOL)isVmInterfaceEnabled:(NSString *)interfaceName{
+    NSString *interfaceStatusCmd =
+        [NSString stringWithFormat:@"/usr/local/bin/VBoxManage showvminfo lede-v2.6-x64 | grep -E 'NIC (2|3)' |grep '%@' ", interfaceName];
+    NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
+    return ![output isEqualToString:@""];
+}
+
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName {
     NSString *interfaceStatusCmd =
         [NSString stringWithFormat:@"networksetup  -getinfo '%@' | grep '^Router:'| awk '{print $2}'", interfaceName];
@@ -146,6 +163,24 @@
         [CLCShellUtils doShellScript:cmd];
     } else {
         DDLogError(@"no usb or wifi net connected");
+    }
+}
+
++ (void)waitForSoftRouterHomeNetOk:(NSInteger)timeout {
+    DDLogVerbose(@"waitForSoftRouterHomeNetOk");
+    NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
+    while (true) {
+        DDLogVerbose(@"test soft router vm home net is ok");
+        if ([self isSoftRouterVmHomeNetOkay]) {
+            DDLogVerbose(@"soft router vm home net is ok");
+            return;
+        }
+        sleep(1);
+        DDLogDebug(@"soft router vm home net is not ok");
+        if ([[NSDate date] timeIntervalSince1970] > [timeoutDate timeIntervalSince1970]) {
+            DDLogError(@"soft router vm home net is not ok. and time out");
+            return;
+        }
     }
 }
 

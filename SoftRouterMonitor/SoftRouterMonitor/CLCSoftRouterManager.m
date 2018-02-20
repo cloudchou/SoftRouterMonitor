@@ -65,6 +65,7 @@
               DDLogDebug(@"soft router vm is stopped. now start ");
               self.operateStatus = SoftRouterOperateStatusStarting;
               [CLCMiscUtils startSoftRouterVm];
+              [CLCMiscUtils waitForSoftRouterVmStarted:10];
           }
           self.operateStatus = SoftRouterOperateStatusNone;
         }];
@@ -101,17 +102,110 @@
     }
 }
 
--(void)ensureConnectToHealthySoftRouter2{
-    //1. 先保证软路由已正常启动 (如果需要重启，则先将网络切换到 真实路由)
-    BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
-    if(!softRouterStarted){
-        //先保证虚拟机参数正确 然后启动虚拟机 并且等待网络Ok
-
-    }else{
-        //判断虚拟机参数是否正确 如果不正确 则重启虚拟机 并且等待网络Ok
+- (void)ensureConnectToRealRouterAndStopSoftRouterVm {
+    if (self.operateStatus == SoftRouterOperateStatusNone) {
+        self.operateStatus = SoftRouterOperateStatusAutoSwitching;
+        [[RACScheduler scheduler] schedule:^{
+          [self connectToRealRouterIfNeed];
+          [CLCMiscUtils stopSoftRouterVm];
+          self.operateStatus = SoftRouterOperateStatusNone;
+        }];
     }
-    //2. 将默认路由切换到软路由
+}
 
+- (void)ensureConnectToHealthySoftRouter2 {
+    // 1. 先保证软路由已正常启动 (如果需要重启，则先将网络切换到 真实路由)
+    BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
+    if (!softRouterStarted) {
+        DDLogDebug(@"soft router vm not started. we have to start soft router vm first");
+        [CLCMiscUtils startSoftRouterVm];  // 会自动修改软路由虚拟机的参数 然后才启动
+        [CLCMiscUtils waitForSoftRouterVmStarted:10];
+        [CLCMiscUtils waitForSoftRouterHomeNetOk:30];
+    } else {
+        //判断虚拟机参数是否正确 如果不正确 则重启虚拟机 并且等待网络Ok
+        BOOL softRouterVmParamOkay = [CLCMiscUtils isSoftRouterVmParamOkay];
+        if (!softRouterVmParamOkay) {
+            DDLogDebug(@"soft router vm param not ok. we have to restart soft router vm first");
+            [self connectToRealRouterIfNeed];
+            [CLCMiscUtils stopSoftRouterVm];
+            [CLCMiscUtils startSoftRouterVm];  // 会自动修改软路由虚拟机的参数 然后才启动
+            [CLCMiscUtils waitForSoftRouterVmStarted:10];
+            [CLCMiscUtils waitForSoftRouterHomeNetOk:30];
+        } else {
+            DDLogDebug(@"soft router vm param is ok. no need to restart soft router vm");
+        }
+    }
+    // 2. 判断网络情况 再决定 是否 将默认路由切换到软路由
+    BOOL softRouterVmHomeNetOkay = [CLCMiscUtils isSoftRouterVmHomeNetOkay];
+    if (softRouterVmHomeNetOkay) {  // 切换到 软路由
+        DDLogDebug(@"soft router vm net ok, now we can connect to soft router ");
+        [self connectToSoftRouterIfNeed];
+    } else {  // 切换到真实路由
+        DDLogDebug(@"soft router vm net not ok, now we have to connect to real router ");
+        [self connectToRealRouterIfNeed];
+    }
+}
+
+- (void)connectToSoftRouter {
+}
+
+- (void)connectToRealRouterIfNeed {
+    DDLogVerbose(@"connectToRealRouterIfNeed");
+    BOOL softRouterDefaultGateWay = [CLCMiscUtils isSoftRouterDefaultGateWay];
+    if (softRouterDefaultGateWay) {
+        DDLogDebug(@"real router is not default gateway, so need to connect to real router");
+        [CLCMiscUtils connectNetToRealRouter];
+    } else {
+        DDLogDebug(@"real router is  default gateway and have to check dns");
+        BOOL wifiEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_WIFI];
+        if (wifiEnabled) {
+            NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
+            if ([wifiDns isEqualToString:@"192.168.100.1"]) {
+                DDLogDebug(@"wifi dns is soft router, so need to  switch to real router ");
+                [CLCMiscUtils connectNetToRealRouter];
+                return;
+            }
+        }
+        BOOL usbEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_USB];
+        if (usbEnabled) {
+            NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
+            if ([usbDns isEqualToString:@"192.168.100.1"]) {
+                DDLogDebug(@"usb dns is soft router, so need to  switch to real router ");
+                [CLCMiscUtils connectNetToRealRouter];
+                return;
+            }
+        }
+        DDLogDebug(@"real router is  the dns for any interfaces correct!!!");
+    }
+}
+- (void)connectToSoftRouterIfNeed {
+    DDLogVerbose(@"connectToSoftRouterIfNeed");
+    BOOL softRouterDefaultGateWay = [CLCMiscUtils isSoftRouterDefaultGateWay];
+    if (!softRouterDefaultGateWay) {
+        DDLogDebug(@"soft router is not default gateway, so need to connect to soft router");
+        [CLCMiscUtils connectNetToSoftRouter];
+    } else {
+        DDLogDebug(@"soft router is already default gateway, check dns");
+        BOOL wifiEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_WIFI];
+        if (wifiEnabled) {
+            NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
+            if (![wifiDns isEqualToString:@"192.168.100.1"]) {
+                DDLogDebug(@"wifi dns is not soft router, so need to  switch to soft router ");
+                [[CLCSoftRouterManager instance] connectNetToSoftRouter];
+                return;
+            }
+        }
+        BOOL usbEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_USB];
+        if (usbEnabled) {
+            NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
+            if (![usbDns isEqualToString:@"192.168.100.1"]) {
+                DDLogDebug(@"usb dns is  not soft router, so need to  switch to soft router ");
+                [[CLCSoftRouterManager instance] connectNetToRealRouter];
+                return;
+            }
+        }
+        DDLogDebug(@"soft router is  the dns for all interfaces correct!!!");
+    }
 }
 
 @end

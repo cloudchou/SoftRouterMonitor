@@ -75,45 +75,15 @@ static NSString *reachabilityFlags(SCNetworkReachabilityFlags flags) {
     BOOL isUserPreferSoftRouterNet = [self isUserPreferSoftRouterNet];
     DDLogDebug(@"network reachable now. user prefer soft router net : %ld", isUserPreferSoftRouterNet);
     if (isUserPreferSoftRouterNet) {
-        DDLogDebug(@"user prefer soft router net, and network is reachable now, we need to ensure connect to soft router net and net ok");
-        [[CLCSoftRouterManager instance]ensureConnectToHealthySoftRouter];
-    } else {
-        [self connectToRealRouterIfNeed];
-    }
-}
-
-- (void)connectToRealRouterIfNeed {
-    BOOL softRouterDefaultGateWay = [CLCMiscUtils isSoftRouterDefaultGateWay];
-    if (softRouterDefaultGateWay) {
         DDLogDebug(
-            @"user  prefer real router net, but soft router is default gateway, so need to connect to real router and "
-            @"stop soft router vm ");
-        [[CLCSoftRouterManager instance] connectNetToRealRouter];
-        [[CLCSoftRouterManager instance] stopSoftRouterVm];
+            @"user prefer soft router net, and network is reachable now, we need to ensure connect to soft router net "
+            @"and net ok");
+        [[CLCSoftRouterManager instance] ensureConnectToHealthySoftRouter];
     } else {
-        DDLogDebug(@"user  prefer real router net soft router is not default gateway check dns");
-        BOOL wifiEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_WIFI];
-        if (wifiEnabled) {
-            NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
-            if ([wifiDns isEqualToString:@"192.168.100.1"]) {
-                DDLogDebug(
-                    @"user user real soft router net， but wifi dns is soft router, so need to  connect to real and "
-                    @"stop soft router vm router" );
-                [[CLCSoftRouterManager instance] connectNetToRealRouter];
-                return;
-            }
-        }
-        BOOL usbEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_USB];
-        if (usbEnabled) {
-            NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
-            if ([usbDns isEqualToString:@"192.168.100.1"]) {
-                DDLogDebug(
-                    @"user user real soft router net， but usb dns is soft router, so need to  connect to real and "
-                    @"stop soft router vm router");
-                [[CLCSoftRouterManager instance] connectNetToRealRouter];
-                return;
-            }
-        }
+        DDLogDebug(
+            @"user prefer real router net, and network is reachable now, we need to ensure connect to real router net "
+            @"and stop soft router vm");
+        [[CLCSoftRouterManager instance] ensureConnectToRealRouterAndStopSoftRouterVm];
     }
 }
 
