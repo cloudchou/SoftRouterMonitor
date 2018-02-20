@@ -3,14 +3,17 @@
 #import "CLCShellUtils.h"
 #import "CLCSoftRouterManager.h"
 #import "CLCStatusMenuController.h"
+#import "ReactiveObjC/ReactiveObjC.h"
 
 @interface CLCStatusMenuController ()
 
 @property(nonatomic, strong) NSWindowController *mainWindowController;
+@property(nonatomic, strong) RACDisposable *statusIconAnimDisposable;
 
 @end
 
 @implementation CLCStatusMenuController {
+    BOOL iconAnimChange;
 }
 
 - (IBAction)quitApp:(id)sender {
@@ -21,7 +24,7 @@
     NSArray<NSString *> *logFilePaths = [DDFileLogger new].logFileManager.sortedLogFilePaths;
     NSString *logDir = [logFilePaths[0] stringByDeletingLastPathComponent];
     [[NSWorkspace sharedWorkspace] openFile:logDir];
-//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
+    //    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
 - (IBAction)gotoSoftRouterStatusMonitorView:(id)sender {
@@ -58,6 +61,44 @@
     [self.statusItem setHighlightMode:YES];
     self.statusItem.target = self;
     self.statusItem.action = @selector(onStatusItemClicked);
+    [self monitorOperateStatusToChangeIcon];
+}
+
+- (void)monitorOperateStatusToChangeIcon {
+    [[[[RACObserve([CLCSoftRouterManager instance], operateStatus) map:^id(NSNumber *value) {
+      return @(value.integerValue == SoftRouterOperateStatusNone);
+    }] distinctUntilChanged] deliverOnMainThread] subscribeNext:^(NSNumber *x) {
+      if (x.boolValue) {
+          DDLogDebug(@"vm not operating no need to display status icon anim");
+          [self stopStatusIconAnim];
+          NSImage *image = [NSImage imageNamed:@"StatusIcon"];
+          [self.statusItem setImage:image];
+      } else {
+          DDLogDebug(@"vm operating need to display status icon anim");
+          [self displayStatusIconAnim];
+      }
+    }];
+}
+
+- (void)stopStatusIconAnim {
+    if (self.statusIconAnimDisposable) {
+        [self.statusIconAnimDisposable dispose];
+        self.statusIconAnimDisposable = nil;
+    }
+}
+
+- (void)displayStatusIconAnim {
+    self.statusIconAnimDisposable =
+        [[RACSignal interval:0.8 onScheduler:[RACScheduler mainThreadScheduler]] subscribeNext:^(NSDate *x) {
+          if (iconAnimChange) {
+              NSImage *image = [NSImage imageNamed:@"StatusIcon"];
+              [self.statusItem setImage:image];
+          } else {
+              NSImage *image = [NSImage imageNamed:@"StatusIconChanging"];
+              [self.statusItem setImage:image];
+          }
+          iconAnimChange = !iconAnimChange;
+        }];
 }
 
 - (void)onStatusItemClicked {
