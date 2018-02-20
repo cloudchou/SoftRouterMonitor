@@ -31,4 +31,6 @@
 
 + (NSString *)getDefaultGateway;
 
++ (BOOL)isSoftRouterDefaultGateWay;
+
 @end

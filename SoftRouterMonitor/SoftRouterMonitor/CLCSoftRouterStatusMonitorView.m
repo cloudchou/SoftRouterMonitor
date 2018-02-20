@@ -154,10 +154,19 @@
       BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
       return @(softRouterStarted);
     }] distinctUntilChanged];
+
     [self monitorVmForeignNetStatus:vmStatusSignal timeSignal:timeSignal];
     [self monitorVmHomeNetStatus:vmStatusSignal timeSignal:timeSignal];
-    [self monitorForeignNetStatus:vmStatusSignal timeSignal:timeSignal];
-    [self monitorHomeNetStatus:vmStatusSignal timeSignal:timeSignal];
+
+    RACSignal *routerChangeSignal = [[[RACObserve([CLCSoftRouterManager instance], operateStatus)
+        deliverOn:[RACScheduler scheduler]] map:^id(id value) {
+      BOOL softRouterStarted = [CLCMiscUtils isSoftRouterDefaultGateWay];
+      return @(softRouterStarted);
+    }] distinctUntilChanged];
+    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[vmStatusSignal,routerChangeSignal,timeSignal]];
+    [self monitorForeignNetStatus:changeSignal];
+    [self monitorHomeNetStatus:changeSignal];
+
 }
 
 - (void)monitorVmForeignNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
@@ -224,8 +233,7 @@
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
 
-- (void)monitorForeignNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
-    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[vmStatusSignal,timeSignal]];
+- (void)monitorForeignNetStatus:(RACSignal *)changeSignal{
     RACSignal *netStatusSignal = [[[changeSignal doNext:^(id x) {
       self.computingForeignNetStatus = YES;
     }] map:^id(id value) {
@@ -252,8 +260,7 @@
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
 
-- (void)monitorHomeNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
-    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[vmStatusSignal,timeSignal]];
+- (void)monitorHomeNetStatus:(RACSignal *)changeSignal{
     RACSignal *netStatusSignal = [[[changeSignal doNext:^(id x) {
       self.computingHomeNetStatus = YES;
     }] map:^id(id value) {
