@@ -6,6 +6,7 @@
 }
 
 + (BOOL)isSoftRouterStarted {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     //    /usr/local/bin/VBoxManage list runningvms | grep lede-v2.6-x64
     // 注意: 已将App的Sandbox选项关闭了，否则执行/usr/local/bin/VBoxManage命令会抛权限错误 Operation Not Permitted
     NSString *output = [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage list runningvms"];
@@ -13,7 +14,7 @@
 }
 
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout {
-    DDLogVerbose(@"waitForSoftRouterVmStarted");
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while (true) {
         DDLogVerbose(@"test soft router vm is started");
@@ -31,12 +32,14 @@
 }
 
 + (void)stopSoftRouterVm {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     //    NSString *cmd =@"/usr/local/bin/VBoxManage controlvm lede-v2.6-x64 savestate";
     //    [CLCShellUtils doShellScript:cmd];
     [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage controlvm lede-v2.6-x64 poweroff"];
 }
 
 + (void)startSoftRouterVm {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     BOOL wifiEnabled = [self isInterfaceEnabled:INTERFACE_WIFI];
     BOOL usbEnabled = [self isInterfaceEnabled:INTERFACE_USB];
     if (wifiEnabled && usbEnabled) {
@@ -60,23 +63,33 @@
 }
 
 + (BOOL)isSoftRouterVmParamOkay {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     BOOL wifiEnabled = [self isInterfaceEnabled:INTERFACE_WIFI];
     BOOL usbEnabled = [self isInterfaceEnabled:INTERFACE_USB];
-    BOOL vmWifiEnabled = [self isInterfaceEnabled:@"en0"];
-    BOOL vmUsbEnabled = [self isInterfaceEnabled:@"en7"];
-    if(wifiEnabled!=vmWifiEnabled)
+    BOOL vmWifiEnabled = [self isVmInterfaceEnabled:@"en0"];
+    BOOL vmUsbEnabled = [self isVmInterfaceEnabled:@"en7"];
+    if (wifiEnabled != vmWifiEnabled) {
+        DDLogVerbose(@"vm wifi setting need to change");
         return NO;
-    return usbEnabled == vmUsbEnabled;
+    }
+    BOOL usbSettingSame = usbEnabled == vmUsbEnabled;
+    if (!usbSettingSame) {
+        DDLogVerbose(@"vm usb setting need to change");
+    }
+    return usbSettingSame;
 }
 
-+(BOOL)isVmInterfaceEnabled:(NSString *)interfaceName{
-    NSString *interfaceStatusCmd =
-        [NSString stringWithFormat:@"/usr/local/bin/VBoxManage showvminfo lede-v2.6-x64 | grep -E 'NIC (2|3)' |grep '%@' ", interfaceName];
++ (BOOL)isVmInterfaceEnabled:(NSString *)interfaceName {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
+    NSString *interfaceStatusCmd = [NSString
+        stringWithFormat:@"/usr/local/bin/VBoxManage showvminfo lede-v2.6-x64 | grep -E 'NIC (2|3)' |grep '%@' ",
+                         interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
     return ![output isEqualToString:@""];
 }
 
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *interfaceStatusCmd =
         [NSString stringWithFormat:@"networksetup  -getinfo '%@' | grep '^Router:'| awk '{print $2}'", interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
@@ -84,23 +97,27 @@
 }
 
 + (NSString *)getInterfaceDns:(NSString *)interfaceName {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *dnsServerCmd = [NSString stringWithFormat:@"sudo networksetup -getdnsservers '%@'", interfaceName];
     NSString *output = [CLCShellUtils doShellScript:dnsServerCmd];
     return output;
 }
 
 + (NSString *)getDefaultGateway {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     // status=`ssh root@192.168.100.1 "curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code}
     // https://www.google.com.tw"`
     return [CLCShellUtils doShellScript:@"sudo route  -n get default | grep gateway | cut -d':' -f 2 | tr -d ' '"];
 }
 
 + (BOOL)isSoftRouterDefaultGateWay {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *output = [self getDefaultGateway];
     return [output containsString:@"192.168.100.1"];
 }
 
 + (BOOL)isSoftRouterVmForeignNetOkay {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd =
         @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
         @"https://www.google.com.tw'";
@@ -109,6 +126,7 @@
 }
 
 + (BOOL)isSoftRouterVmHomeNetOkay {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd =
         @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
         @"https://www.baidu.com'";
@@ -117,18 +135,21 @@
 }
 
 + (BOOL)isForeignNetOkay {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
     NSString *output = [CLCShellUtils doShellScript:cmd];
     return [output containsString:@"200"];
 }
 
 + (BOOL)isHomeNetOkay {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.baidu.com";
     NSString *output = [CLCShellUtils doShellScript:cmd];
     return [output containsString:@"200"];
 }
 
 + (void)connectNetToSoftRouter {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *softRouterIp = @"192.168.100.1";
     if ([self isInterfaceEnabled:INTERFACE_USB]) {
         NSString *cmd =
@@ -144,6 +165,7 @@
 }
 
 + (void)connectNetToRealRouter {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd =
         @"sudo sed -i -e 's/<string>192.168.100.1<\\/string>//g' "
         @"/Library/Preferences/SystemConfiguration/preferences.plist";
@@ -167,7 +189,7 @@
 }
 
 + (void)waitForSoftRouterHomeNetOk:(NSInteger)timeout {
-    DDLogVerbose(@"waitForSoftRouterHomeNetOk");
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSDate *timeoutDate = [NSDate dateWithTimeIntervalSinceNow:timeout];
     while (true) {
         DDLogVerbose(@"test soft router vm home net is ok");
