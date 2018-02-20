@@ -1,6 +1,7 @@
 
 #import "CLCMiscUtils.h"
 #import "CLCShellUtils.h"
+#import "CLCSoftRouterManager.h"
 #import "CLCStatusMenuController.h"
 
 @interface CLCStatusMenuController ()
@@ -18,6 +19,14 @@
 
 - (IBAction)gotoSoftRouterStatusMonitorView:(id)sender {
     [self.mainWindowController showWindow:self];
+}
+
+- (IBAction)switchToSoftRouter:(id)sender {
+    [[CLCSoftRouterManager instance] connectNetToSoftRouter];
+}
+
+- (IBAction)switchToRealRouter:(id)sender {
+    [[CLCSoftRouterManager instance] connectNetToRealRouter];
 }
 
 - (NSWindowController *)mainWindowController {

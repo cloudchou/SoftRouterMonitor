@@ -52,6 +52,18 @@
                                 <action selector="openRouterKoolSS:" target="4Hs-e1-gha" id="Zdh-4x-AjB"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Switch To Soft Router" id="VUg-PI-rfk">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="switchToSoftRouter:" target="4Hs-e1-gha" id="ChK-ts-8M5"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Switch To Real Router" id="74q-ec-m6S">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="switchToRealRouter:" target="4Hs-e1-gha" id="Lde-ky-sCc"/>
+                            </connections>
+                        </menuItem>
                         <menuItem isSeparatorItem="YES" id="UmS-EI-n1m"/>
                         <menuItem title="Quit" keyEquivalent="q" id="8AJ-NJ-znP">
                             <connections>
