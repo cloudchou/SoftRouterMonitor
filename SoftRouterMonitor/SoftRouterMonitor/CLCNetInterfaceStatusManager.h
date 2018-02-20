@@ -6,6 +6,8 @@
 //
 #import <Foundation/Foundation.h>
 
+#define NS_USER_DEF_KEY_USER_PREFER_REAL_ROUTER @"NS_USER_DEF_KEY_USER_PREFER_REAL_ROUTER"
+
 @interface CLCNetInterfaceStatusManager : NSObject
 
 + (instancetype)instance;

@@ -88,8 +88,8 @@ static NSString *reachabilityFlags(SCNetworkReachabilityFlags flags) {
 }
 
 - (BOOL)isUserPreferSoftRouterNet {
-    // TODO
-    return YES;
+    BOOL preferRealRouter = [[NSUserDefaults standardUserDefaults] boolForKey:NS_USER_DEF_KEY_USER_PREFER_REAL_ROUTER];
+    return !preferRealRouter;
 }
 
 @end

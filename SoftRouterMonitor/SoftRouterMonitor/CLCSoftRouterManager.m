@@ -2,6 +2,7 @@
 #import "CLCMiscUtils.h"
 #import "CLCSoftRouterManager.h"
 #import "ReactiveObjC/ReactiveObjC.h"
+#import "CLCNetInterfaceStatusManager.h"
 
 @implementation CLCSoftRouterManager {
 }
@@ -76,6 +77,7 @@
     if (self.operateStatus == SoftRouterOperateStatusNone) {
         self.operateStatus = SoftRouterOperateStatusConnectingToSoftRouter;
         [[RACScheduler scheduler] schedule:^{
+          [[NSUserDefaults standardUserDefaults] setBool:NO forKey:NS_USER_DEF_KEY_USER_PREFER_REAL_ROUTER];
           [CLCMiscUtils connectNetToSoftRouter];
           self.operateStatus = SoftRouterOperateStatusNone;
         }];
@@ -86,6 +88,7 @@
     if (self.operateStatus == SoftRouterOperateStatusNone) {
         self.operateStatus = SoftRouterOperateStatusConnectingToRealRouter;
         [[RACScheduler scheduler] schedule:^{
+          [[NSUserDefaults standardUserDefaults] setBool:YES forKey:NS_USER_DEF_KEY_USER_PREFER_REAL_ROUTER];
           [CLCMiscUtils connectNetToRealRouter];
           self.operateStatus = SoftRouterOperateStatusNone;
         }];
@@ -146,9 +149,6 @@
     }
 }
 
-- (void)connectToSoftRouter {
-}
-
 - (void)connectToRealRouterIfNeed {
     DDLogVerbose(@"connectToRealRouterIfNeed");
     BOOL softRouterDefaultGateWay = [CLCMiscUtils isSoftRouterDefaultGateWay];
@@ -191,7 +191,7 @@
             NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
             if (![wifiDns isEqualToString:@"192.168.100.1"]) {
                 DDLogDebug(@"wifi dns is not soft router, so need to  switch to soft router ");
-                [[CLCSoftRouterManager instance] connectNetToSoftRouter];
+                [CLCMiscUtils connectNetToSoftRouter];
                 return;
             }
         }
@@ -200,7 +200,7 @@
             NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
             if (![usbDns isEqualToString:@"192.168.100.1"]) {
                 DDLogDebug(@"usb dns is  not soft router, so need to  switch to soft router ");
-                [[CLCSoftRouterManager instance] connectNetToRealRouter];
+                [CLCMiscUtils connectNetToSoftRouter];
                 return;
             }
         }
