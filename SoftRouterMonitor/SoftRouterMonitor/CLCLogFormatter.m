@@ -63,10 +63,11 @@
     dateFormatter.locale = locale;
     if (_logColor) {
         //控制台日志格式:  颜色前缀[前缀][日期][logLevel][QueueLabel][文件:行号]日志内容颜色后缀
-        return [NSString stringWithFormat:@"%@[%@]%@[%@][%@][%@:%lu]%@%@", logPrefix,
+        return [NSString stringWithFormat:@"%@[%@]%@[%@][%@][tid:%@][%@:%lu]%@%@", logPrefix,
                                           [dateFormatter stringFromDate:logMessage->_timestamp], logBusinessPrefix,
-                                          logLevel, logMessage -> _queueLabel, logMessage -> _fileName,
-                                          (unsigned long)logMessage -> _line, logMessage -> _message, logSuffix];
+                                          logLevel, logMessage -> _queueLabel, logMessage -> _threadID,
+                                          logMessage -> _fileName, (unsigned long)logMessage -> _line,
+                                          logMessage -> _message, logSuffix];
     } else {
         //文件日志格式:  [日期][前缀][logLevel][queueLabel][文件:行号]日志内容
         return [NSString stringWithFormat:@"[%@]%@[%@][%@][%@:%lu]%@",

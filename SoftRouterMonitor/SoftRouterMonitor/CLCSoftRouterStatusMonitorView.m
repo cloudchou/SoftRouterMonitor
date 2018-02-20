@@ -29,11 +29,23 @@
 @property(nonatomic, weak) RACDisposable *updateUsbDnsStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateWifiDnsStatusDisposable;
 @property(nonatomic, weak) RACDisposable *updateDefaultGatewayStatusDisposable;
-@property(nonatomic, weak) RACDisposable *updateNetOkStatusDisposable;
-@property(nonatomic, weak) RACDisposable *updateSwitchNetButtonStatusDisposable ;
+@property(nonatomic, strong) NSMutableArray<RACDisposable *> *updateNetOkStatusDisposableArr;
+@property(nonatomic, weak) RACDisposable *updateSwitchNetButtonStatusDisposable;
+
+@property(nonatomic, assign) BOOL computingVmForeignNetStatus;
+@property(nonatomic, assign) BOOL computingVmHomeNetStatus;
+@property(nonatomic, assign) BOOL computingForeignNetStatus;
+@property(nonatomic, assign) BOOL computingHomeNetStatus;
 @end
 
 @implementation CLCSoftRouterStatusMonitorView
+
+- (NSMutableArray *)updateNetOkStatusDisposableArr {
+    if (!_updateNetOkStatusDisposableArr) {
+        _updateNetOkStatusDisposableArr = [[NSMutableArray alloc] init];
+    }
+    return _updateNetOkStatusDisposableArr;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -130,83 +142,150 @@
     [self monitorToUpdateUsbDnsStatus];
     [self monitorToUpdateWifiDnsStatus];
     [self monitorToUpdateDefaultGatewayStatus];
-    [self monitorToUpdateSoftRouterVmForeignNetStatus];
+    [self monitorToUpdateNetStatus];
     [self monitorToUpdateSwitchNetButtonStatus];
 }
 
-- (void)monitorToUpdateSoftRouterVmForeignNetStatus {
-    RACSignal<NSDate *> *timeSignal = [self timeSignal:3];
-    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
-    RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
-    RACSignal *vmForeignSignal = [[[changeSignal map:^id(id value) {
-      if ([CLCMiscUtils isSoftRouterStarted]) {
-          BOOL isSoftRouterVmForeignNetOk = [CLCMiscUtils isSoftRouterVmForeignNetOkay];
-          return [RACTwoTuple pack:@(YES):@(isSoftRouterVmForeignNetOk)];
-      } else {
-          return [RACTwoTuple pack:@(NO):@(NO)];
-      }
-    }] deliverOnMainThread] doNext:^(RACTwoTuple *x) {
-      NSNumber *value1 = x.first;
-      NSNumber *value2 = x.second;
-      if (!value1.boolValue) {
-          [self.softRouterForeignNetStatusLabel setStringValue:@"软路由未启动"];
-      } else {
-          if (value2.boolValue) {
-              [self.softRouterForeignNetStatusLabel setStringValue:@"连接正常"];
-          } else {
-              [self.softRouterForeignNetStatusLabel setStringValue:@"连接失败"];
-          }
-      }
-    }];
-    RACSignal *vmHomeSignal = [[[changeSignal map:^id(id value) {
-      if ([CLCMiscUtils isSoftRouterStarted]) {
-          BOOL isSoftRouterVmHomeNetOk = [CLCMiscUtils isSoftRouterVmHomeNetOkay];
-          return [RACTwoTuple pack:@(YES):@(isSoftRouterVmHomeNetOk)];
-      } else {
-          return [RACTwoTuple pack:@(NO):@(NO)];
-      }
-    }] deliverOnMainThread] doNext:^(RACTwoTuple *x) {
-      NSNumber *value1 = x.first;
-      NSNumber *value2 = x.second;
-      if (!value1.boolValue) {
-          [self.softRouterHomeNetStatusLabel setStringValue:@"软路由未启动"];
-      } else {
-          if (value2.boolValue) {
-              [self.softRouterHomeNetStatusLabel setStringValue:@"连接正常"];
-          } else {
-              [self.softRouterHomeNetStatusLabel setStringValue:@"连接失败"];
-          }
-      }
-    }];
-    RACSignal *foreignSignal = [[[changeSignal map:^id(id value) {
-      BOOL isForeignNetOk = [CLCMiscUtils isForeignNetOkay];
-      return @(isForeignNetOk);
-    }] deliverOnMainThread] doNext:^(NSNumber *x) {
-      if (x.boolValue) {
-          [self.foreignNetStatusLabel setStringValue:@"连接正常"];
-      } else {
-          [self.foreignNetStatusLabel setStringValue:@"连接失败"];
-      }
-    }];
-    RACSignal *homeSignal = [[[changeSignal map:^id(id value) {
-      BOOL isHomeNetOk = [CLCMiscUtils isHomeNetOkay];
-      return @(isHomeNetOk);
-    }] deliverOnMainThread] doNext:^(NSNumber *x) {
-      if (x.boolValue) {
-          [self.homeNetStatusLabel setStringValue:@"连接正常"];
-      } else {
-          [self.homeNetStatusLabel setStringValue:@"连接失败"];
-      }
-    }];
-    self.updateNetOkStatusDisposable = [[RACSignal
-        combineLatest:@[ vmForeignSignal, vmHomeSignal, foreignSignal, homeSignal ]] subscribeNext:^(RACTuple *x) {
-      DDLogVerbose(@"net status update");
-    }];
+- (void)monitorToUpdateNetStatus {
+    // 判断网络是否连接上的超时时间时30s
+    RACSignal<NSDate *> *timeSignal = [self timeSignal:60];
+    RACSignal *vmStatusSignal = [[[RACObserve([CLCSoftRouterManager instance], operateStatus)
+        deliverOn:[RACScheduler scheduler]] map:^id(id value) {
+      BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
+      return @(softRouterStarted);
+    }] distinctUntilChanged];
+    [self monitorVmForeignNetStatus:vmStatusSignal timeSignal:timeSignal];
+    [self monitorVmHomeNetStatus:vmStatusSignal timeSignal:timeSignal];
+    [self monitorForeignNetStatus:vmStatusSignal timeSignal:timeSignal];
+    [self monitorHomeNetStatus:vmStatusSignal timeSignal:timeSignal];
 }
+
+- (void)monitorVmForeignNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
+    RACSignal *vmNetStatusSignal = [[[timeSignal doNext:^(NSDate *x) {
+      self.computingVmForeignNetStatus = YES;
+    }] map:^id(NSDate *value) {
+      BOOL isSoftRouterVmForeignNetOk = [CLCMiscUtils isSoftRouterVmForeignNetOkay];
+      return @(isSoftRouterVmForeignNetOk);
+    }] doNext:^(id x) {
+      self.computingVmForeignNetStatus = NO;
+    }];
+    RACSignal *computingSignal = RACObserve(self, computingVmForeignNetStatus);
+    RACDisposable *disposable =
+        [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] subscribeNext:^(RACTuple *x) {
+          NSNumber *vmStatus = x.first;
+          NSNumber *computingStatus = x.second;
+          NSNumber *vmNetStatus = x.third;
+          if (!vmStatus.boolValue) {
+              [self.softRouterForeignNetStatusLabel setStringValue:@"软路由未启动"];
+          } else {
+              if (computingStatus.boolValue) {
+                  [self.softRouterForeignNetStatusLabel setStringValue:@"计算中..."];
+              } else {
+                  if (vmNetStatus.boolValue) {
+                      [self.softRouterForeignNetStatusLabel setStringValue:@"连接正常"];
+                  } else {
+                      [self.softRouterForeignNetStatusLabel setStringValue:@"连接失败"];
+                  }
+              }
+          }
+        }];
+    [self.updateNetOkStatusDisposableArr addObject:disposable];
+}
+
+- (void)monitorVmHomeNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
+    RACSignal *vmNetStatusSignal = [[[timeSignal doNext:^(NSDate *x) {
+      self.computingVmHomeNetStatus = YES;
+    }] map:^id(NSDate *value) {
+      BOOL isNetOk = [CLCMiscUtils isSoftRouterVmHomeNetOkay];
+      return @(isNetOk);
+    }] doNext:^(id x) {
+      self.computingVmHomeNetStatus = NO;
+    }];
+    RACSignal *computingSignal = RACObserve(self, computingVmHomeNetStatus);
+    RACDisposable *disposable =
+        [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] subscribeNext:^(RACTuple *x) {
+          NSNumber *vmStatus = x.first;
+          NSNumber *computingStatus = x.second;
+          NSNumber *vmNetStatus = x.third;
+          if (!vmStatus.boolValue) {
+              [self.softRouterHomeNetStatusLabel setStringValue:@"软路由未启动"];
+          } else {
+              if (computingStatus.boolValue) {
+                  [self.softRouterHomeNetStatusLabel setStringValue:@"计算中..."];
+              } else {
+                  if (vmNetStatus.boolValue) {
+                      [self.softRouterHomeNetStatusLabel setStringValue:@"连接正常"];
+                  } else {
+                      [self.softRouterHomeNetStatusLabel setStringValue:@"连接失败"];
+                  }
+              }
+          }
+        }];
+    [self.updateNetOkStatusDisposableArr addObject:disposable];
+}
+
+- (void)monitorForeignNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
+    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[vmStatusSignal,timeSignal]];
+    RACSignal *netStatusSignal = [[[changeSignal doNext:^(id x) {
+      self.computingForeignNetStatus = YES;
+    }] map:^id(id value) {
+      BOOL isNetOk = [CLCMiscUtils isForeignNetOkay];
+      return @(isNetOk);
+    }] doNext:^(id x) {
+      self.computingForeignNetStatus = NO;
+    }];
+    RACSignal *computingSignal = RACObserve(self, computingForeignNetStatus);
+    RACDisposable *disposable =
+        [[RACSignal combineLatest:@[computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
+          NSNumber *computingStatus = x.first;
+          NSNumber *netStatus = x.second;
+          if (computingStatus.boolValue) {
+              [self.foreignNetStatusLabel setStringValue:@"计算中..."];
+          } else {
+              if (netStatus.boolValue) {
+                  [self.foreignNetStatusLabel setStringValue:@"连接正常"];
+              } else {
+                  [self.foreignNetStatusLabel setStringValue:@"连接失败"];
+              }
+          }
+        }];
+    [self.updateNetOkStatusDisposableArr addObject:disposable];
+}
+
+- (void)monitorHomeNetStatus:(RACSignal *)vmStatusSignal timeSignal:(RACSignal<NSDate *> *)timeSignal {
+    RACSignal<RACTuple *> *changeSignal = [RACSignal combineLatest:@[vmStatusSignal,timeSignal]];
+    RACSignal *netStatusSignal = [[[changeSignal doNext:^(id x) {
+      self.computingHomeNetStatus = YES;
+    }] map:^id(id value) {
+      BOOL isNetOk = [CLCMiscUtils isHomeNetOkay];
+      return @(isNetOk);
+    }] doNext:^(id x) {
+      self.computingHomeNetStatus = NO;
+    }];
+    RACSignal *computingSignal = RACObserve(self, computingHomeNetStatus);
+    RACDisposable *disposable =
+        [[RACSignal combineLatest:@[computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
+          NSNumber *computingStatus = x.first;
+          NSNumber *netStatus = x.second;
+          if (computingStatus.boolValue) {
+              [self.homeNetStatusLabel setStringValue:@"计算中..."];
+          } else {
+              if (netStatus.boolValue) {
+                  [self.homeNetStatusLabel setStringValue:@"连接正常"];
+              } else {
+                  [self.homeNetStatusLabel setStringValue:@"连接失败"];
+              }
+          }
+        }];
+    [self.updateNetOkStatusDisposableArr addObject:disposable];
+}
+
 
 - (void)monitorToUpdateWifiDnsStatus {
     RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
-    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    //    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *opStatusSignal =
+        [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
     self.updateWifiDnsStatusDisposable = [[changeSignal map:^id(id value) {
       NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
@@ -220,7 +299,9 @@
 
 - (void)monitorToUpdateDefaultGatewayStatus {
     RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
-    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    //    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *opStatusSignal =
+        [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
     self.updateDefaultGatewayStatusDisposable = [[changeSignal map:^id(id value) {
       NSString *output = [CLCMiscUtils getDefaultGateway];
@@ -236,7 +317,9 @@
 
 - (void)monitorToUpdateUsbDnsStatus {
     RACSignal<NSDate *> *timeSignal = [self timeSignal:5];
-    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    //    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *opStatusSignal =
+        [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
     self.updateUsbDnsStatusDisposable = [[changeSignal map:^id(id value) {
       NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
@@ -249,7 +332,9 @@
 }
 - (void)monitorToUpdateSoftRouterVmStatus {
     RACSignal *timeSignal = [self timeSignal:5];
-    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    //    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *opStatusSignal =
+        [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     self.updateSoftRouterVmStatusDisposable = [[[[[RACSignal combineLatest:@[ timeSignal, opStatusSignal ]]
         deliverOn:[RACScheduler scheduler]] map:^id(RACTuple *value) {
       BOOL softRouterStarted = [CLCMiscUtils isSoftRouterStarted];
@@ -259,18 +344,19 @@
     }];
 }
 
-- (void)monitorToUpdateSwitchNetButtonStatus{
-    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
-    self.updateSwitchNetButtonStatusDisposable =
-        [[opStatusSignal deliverOnMainThread] subscribeNext:^(NSNumber *x) {
-          if (x.integerValue == SoftRouterOperateStatusNone) {
-              self.switchSoftRouterVmButton.enabled = YES;
-              self.switchRealRouterButton.enabled = YES;
-          } else {
-              self.switchSoftRouterVmButton.enabled = NO;
-              self.switchRealRouterButton.enabled = NO;
-          }
-        }];
+- (void)monitorToUpdateSwitchNetButtonStatus {
+    //    RACSignal *opStatusSignal = RACObserve([CLCSoftRouterManager instance], operateStatus);
+    RACSignal *opStatusSignal =
+        [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
+    self.updateSwitchNetButtonStatusDisposable = [[opStatusSignal deliverOnMainThread] subscribeNext:^(NSNumber *x) {
+      if (x.integerValue == SoftRouterOperateStatusNone) {
+          self.switchSoftRouterVmButton.enabled = YES;
+          self.switchRealRouterButton.enabled = YES;
+      } else {
+          self.switchSoftRouterVmButton.enabled = NO;
+          self.switchRealRouterButton.enabled = NO;
+      }
+    }];
 }
 
 - (void)updateNetDnsStatus:(NSTextField *)textField isEnabled:(BOOL)isEnabled dnsStr:(NSString *)dnsStr {
@@ -304,14 +390,14 @@
         [self.updateDefaultGatewayStatusDisposable dispose];
         self.updateDefaultGatewayStatusDisposable = nil;
     }
-    if (self.updateNetOkStatusDisposable != nil) {
-        [self.updateNetOkStatusDisposable dispose];
-        self.updateNetOkStatusDisposable = nil;
-    }
-    if(self.updateSwitchNetButtonStatusDisposable!=nil){
+    if (self.updateSwitchNetButtonStatusDisposable != nil) {
         [self.updateSwitchNetButtonStatusDisposable dispose];
         self.updateSwitchNetButtonStatusDisposable = nil;
     }
+    for (RACDisposable *updateNetOkStatusDisposable in self.updateNetOkStatusDisposableArr) {
+        [updateNetOkStatusDisposable dispose];
+    }
+    [self.updateNetOkStatusDisposableArr removeAllObjects];
 }
 
 - (RACSignal<NSDate *> *)timeSignal:(NSInteger)timeInterval {

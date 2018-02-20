@@ -15,4 +15,19 @@
 
 #define ddLogLevel DDLogLevelVerbose
 #define USE_CONSOLE_COLOR
+
+#define dispatch_main_sync_safe(block)\
+    if ([NSThread isMainThread]) {\
+        block();\
+    } else {\
+        dispatch_sync(dispatch_get_main_queue(), block);\
+    }
+
+#define dispatch_main_async_safe(block)\
+    if ([NSThread isMainThread]) {\
+        block();\
+    } else {\
+        dispatch_async(dispatch_get_main_queue(), block);\
+    }
+
 #endif /* prefix_pch_h */
