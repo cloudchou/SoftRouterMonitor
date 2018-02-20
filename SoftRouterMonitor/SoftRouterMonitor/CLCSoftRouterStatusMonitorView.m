@@ -118,6 +118,10 @@
     if (flags && event.keyCode == 12)  // command +q
     {
         [NSApplication.sharedApplication terminate:self];
+    } else if (flags && event.keyCode == 13)  // command +w
+    {
+        __kindof NSWindowController *windowController1 = [self.view.window windowController];
+        [windowController1 close];
     }
 }
 
