@@ -10,6 +10,6 @@
 
 + (instancetype)instance;
 
-+ (void)startWork;
+- (void)startWork;
 
 @end
