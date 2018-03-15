@@ -153,11 +153,11 @@
     NSString *softRouterIp = @"192.168.100.1";
     if ([self isInterfaceEnabled:INTERFACE_USB]) {
         NSString *cmd =
-            [NSString stringWithFormat:@"sudo networksetup -setdnsservers %@ %@", INTERFACE_USB, softRouterIp];
+            [NSString stringWithFormat:@"sudo networksetup -setdnsservers \"%@\" %@", INTERFACE_USB, softRouterIp];
         [CLCShellUtils doShellScript:cmd];
     } else if ([self isInterfaceEnabled:INTERFACE_WIFI]) {
         NSString *cmd =
-            [NSString stringWithFormat:@"sudo networksetup -setdnsservers %@ %@", INTERFACE_WIFI, softRouterIp];
+            [NSString stringWithFormat:@"sudo networksetup -setdnsservers \"%@\" %@", INTERFACE_WIFI, softRouterIp];
         [CLCShellUtils doShellScript:cmd];
     }
     NSString *cmd = [NSString stringWithFormat:@"sudo route change default %@", softRouterIp];
