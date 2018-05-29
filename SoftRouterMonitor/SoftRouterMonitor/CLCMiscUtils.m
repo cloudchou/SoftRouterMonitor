@@ -89,7 +89,7 @@
 }
 
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName {
-    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
+    DDLogVerbose(@"%@ : %@", NSStringFromSelector(_cmd), interfaceName);
     NSString *interfaceStatusCmd =
         [NSString stringWithFormat:@"networksetup  -getinfo '%@' | grep '^Router:'| awk '{print $2}'", interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
@@ -100,7 +100,8 @@
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *dnsServerCmd = [NSString stringWithFormat:@"sudo networksetup -getdnsservers '%@'", interfaceName];
     NSString *output = [CLCShellUtils doShellScript:dnsServerCmd];
-    return output;
+    NSString *temp = [output stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    return temp;
 }
 
 + (NSString *)getDefaultGateway {

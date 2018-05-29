@@ -141,7 +141,7 @@
           newStatus = [NSString stringWithFormat:@"%@:%@ Not Connected", tag, tag];
       } else {
           NSString *dns = [CLCMiscUtils getInterfaceDns:interfaceName];
-          if ([dns containsString:@"192.168.100.1"]) {
+          if ([dns isEqualToString:@"192.168.100.1"]) {
               newStatus = [NSString stringWithFormat:@"%@:SoftRouter", tag];
           } else if ([dns containsString:@"There aren't any DNS Servers set on"]) {
               newStatus = [NSString stringWithFormat:@"%@:Default", tag];
