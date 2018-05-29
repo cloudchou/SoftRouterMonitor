@@ -105,12 +105,12 @@
     }
 }
 
-- (void)ensureConnectToRealRouterAndStopSoftRouterVm {
+- (void)ensureConnectToRealRouter{
     if (self.operateStatus == SoftRouterOperateStatusNone) {
         self.operateStatus = SoftRouterOperateStatusAutoSwitching;
         [[RACScheduler scheduler] schedule:^{
           [self connectToRealRouterIfNeed];
-          [CLCMiscUtils stopSoftRouterVm];
+//          [CLCMiscUtils stopSoftRouterVm];
           self.operateStatus = SoftRouterOperateStatusNone;
         }];
     }

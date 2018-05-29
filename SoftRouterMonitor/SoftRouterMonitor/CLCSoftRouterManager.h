@@ -34,6 +34,6 @@ typedef NS_ENUM(NSUInteger, SoftRouterOperateStatus) {
 
 - (void)connectNetToRealRouter;
 
-- (void)ensureConnectToRealRouterAndStopSoftRouterVm;
+- (void)ensureConnectToRealRouter;
 
 @end

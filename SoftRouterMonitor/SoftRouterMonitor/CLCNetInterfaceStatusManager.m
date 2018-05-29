@@ -81,9 +81,9 @@ static NSString *reachabilityFlags(SCNetworkReachabilityFlags flags) {
         [[CLCSoftRouterManager instance] ensureConnectToHealthySoftRouter];
     } else {
         DDLogDebug(
-            @"user prefer real router net, and network is reachable now, we need to ensure connect to real router net "
-            @"and stop soft router vm");
-        [[CLCSoftRouterManager instance] ensureConnectToRealRouterAndStopSoftRouterVm];
+            @"user prefer real router net, and network is reachable now, we need to ensure connect to real router "
+            @"net ");
+        [[CLCSoftRouterManager instance] ensureConnectToRealRouter];
     }
 }
 
