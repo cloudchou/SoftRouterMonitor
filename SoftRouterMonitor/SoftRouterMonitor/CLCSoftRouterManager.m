@@ -1,8 +1,8 @@
 
 #import "CLCMiscUtils.h"
+#import "CLCNetInterfaceStatusManager.h"
 #import "CLCSoftRouterManager.h"
 #import "ReactiveObjC/ReactiveObjC.h"
-#import "CLCNetInterfaceStatusManager.h"
 
 @implementation CLCSoftRouterManager {
 }
@@ -25,10 +25,12 @@
           BOOL started = [CLCMiscUtils isSoftRouterStarted];
           if (started) {
               self.operateStatus = SoftRouterOperateStatusStopping;
+              [[NSUserDefaults standardUserDefaults] setBool:NO forKey:NS_USER_DEF_KEY_USER_PREFER_SOFT_ROUTER_STARTED];
               [CLCMiscUtils stopSoftRouterVm];
               self.operateStatus = SoftRouterOperateStatusNone;
           } else {
               self.operateStatus = SoftRouterOperateStatusStarting;
+              [[NSUserDefaults standardUserDefaults] setBool:YES forKey:NS_USER_DEF_KEY_USER_PREFER_SOFT_ROUTER_STARTED];
               [CLCMiscUtils startSoftRouterVm];
               [CLCMiscUtils waitForSoftRouterVmStarted:10];
               self.operateStatus = SoftRouterOperateStatusNone;
@@ -105,12 +107,16 @@
     }
 }
 
-- (void)ensureConnectToRealRouter{
+- (void)ensureConnectToRealRouter:(BOOL)startSoftRouter {
     if (self.operateStatus == SoftRouterOperateStatusNone) {
         self.operateStatus = SoftRouterOperateStatusAutoSwitching;
         [[RACScheduler scheduler] schedule:^{
           [self connectToRealRouterIfNeed];
-//          [CLCMiscUtils stopSoftRouterVm];
+          if (startSoftRouter) {
+              [CLCMiscUtils startSoftRouterVm];
+          } else {
+              [CLCMiscUtils stopSoftRouterVm];
+          }
           self.operateStatus = SoftRouterOperateStatusNone;
         }];
     }

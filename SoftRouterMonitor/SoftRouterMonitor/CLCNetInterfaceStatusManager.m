@@ -83,13 +83,30 @@ static NSString *reachabilityFlags(SCNetworkReachabilityFlags flags) {
         DDLogDebug(
             @"user prefer real router net, and network is reachable now, we need to ensure connect to real router "
             @"net ");
-        [[CLCSoftRouterManager instance] ensureConnectToRealRouter];
+        BOOL userPreferSoftRouterStarted = [self isUserPreferSoftRouterStarted];
+        if (userPreferSoftRouterStarted) {
+            DDLogDebug(@"user prefer soft router started, so need to start soft router");
+            [[CLCSoftRouterManager instance] ensureConnectToRealRouter:YES];
+        } else {
+            DDLogDebug(@"user prefer soft router stop, so need to stop soft router");
+            [[CLCSoftRouterManager instance] ensureConnectToRealRouter:NO];
+        }
     }
 }
 
 - (BOOL)isUserPreferSoftRouterNet {
     BOOL preferRealRouter = [[NSUserDefaults standardUserDefaults] boolForKey:NS_USER_DEF_KEY_USER_PREFER_REAL_ROUTER];
     return !preferRealRouter;
+}
+
+/**
+ * 用户是想开启虚拟机还是想停止虚拟机  只要用户上一次操作是停止虚拟机 则认为更倾向于停止虚拟机
+ * @return 如果用户想开启虚拟机则返回true 否则返回false
+ */
+- (BOOL)isUserPreferSoftRouterStarted {
+    BOOL userPreferSoftRouterStarted =
+        [[NSUserDefaults standardUserDefaults] boolForKey:NS_USER_DEF_KEY_USER_PREFER_SOFT_ROUTER_STARTED];
+    return userPreferSoftRouterStarted;
 }
 
 @end
