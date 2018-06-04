@@ -10,7 +10,7 @@
     //    /usr/local/bin/VBoxManage list runningvms | grep lede-v2.6-x64
     // 注意: 已将App的Sandbox选项关闭了，否则执行/usr/local/bin/VBoxManage命令会抛权限错误 Operation Not Permitted
     NSString *output = [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage list runningvms"];
-    return [output containsString:@"lede-v2.6-x64"];
+    return output != nil && [output containsString:@"lede-v2.6-x64"];
 }
 
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout {
@@ -85,7 +85,7 @@
         stringWithFormat:@"/usr/local/bin/VBoxManage showvminfo lede-v2.6-x64 | grep -E 'NIC (2|3)' |grep '%@' ",
                          interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
-    return ![output isEqualToString:@""];
+    return output != nil && ![output isEqualToString:@""];
 }
 
 + (BOOL)isInterfaceEnabled:(NSString *)interfaceName {
@@ -93,7 +93,7 @@
     NSString *interfaceStatusCmd =
         [NSString stringWithFormat:@"networksetup  -getinfo '%@' | grep '^Router:'| awk '{print $2}'", interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
-    return ![output isEqualToString:@""];
+    return output != nil && ![output isEqualToString:@""];
 }
 
 + (NSString *)getInterfaceDns:(NSString *)interfaceName {
@@ -114,7 +114,7 @@
 + (BOOL)isSoftRouterDefaultGateWay {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *output = [self getDefaultGateway];
-    return [output containsString:@"192.168.100.1"];
+    return output != nil && [output containsString:@"192.168.100.1"];
 }
 
 + (BOOL)isSoftRouterVmForeignNetOkay {
@@ -123,7 +123,7 @@
         @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
         @"https://www.google.com.tw'";
     NSString *output = [CLCShellUtils doShellScript:cmd];
-    return [output containsString:@"200"];
+    return output != nil && [output containsString:@"200"];
 }
 
 + (BOOL)isSoftRouterVmHomeNetOkay {
@@ -132,21 +132,21 @@
         @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
         @"https://www.baidu.com'";
     NSString *output = [CLCShellUtils doShellScript:cmd];
-    return [output containsString:@"200"];
+    return output != nil && [output containsString:@"200"];
 }
 
 + (BOOL)isForeignNetOkay {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
     NSString *output = [CLCShellUtils doShellScript:cmd];
-    return [output containsString:@"200"];
+    return output != nil && [output containsString:@"200"];
 }
 
 + (BOOL)isHomeNetOkay {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.baidu.com";
     NSString *output = [CLCShellUtils doShellScript:cmd];
-    return [output containsString:@"200"];
+    return output != nil && [output containsString:@"200"];
 }
 
 + (void)connectNetToSoftRouter {
