@@ -1,5 +1,6 @@
 
 #import "CLCMiscUtils.h"
+#import "CLCShellExecutor.h"
 #import "CLCShellUtils.h"
 
 @implementation CLCMiscUtils {
@@ -122,7 +123,8 @@
     NSString *cmd =
         @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
         @"https://www.google.com.tw'";
-    NSString *output = [CLCShellUtils doShellScript:cmd];
+    CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
+    NSString *output = [shellExecutor doShellScript:cmd];
     return output != nil && [output containsString:@"200"];
 }
 
@@ -131,21 +133,24 @@
     NSString *cmd =
         @"ssh root@192.168.100.1 'curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} "
         @"https://www.baidu.com'";
-    NSString *output = [CLCShellUtils doShellScript:cmd];
+    CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
+    NSString *output = [shellExecutor doShellScript:cmd];
     return output != nil && [output containsString:@"200"];
 }
 
 + (BOOL)isForeignNetOkay {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
-    NSString *output = [CLCShellUtils doShellScript:cmd];
+    CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
+    NSString *output = [shellExecutor doShellScript:cmd];
     return output != nil && [output containsString:@"200"];
 }
 
 + (BOOL)isHomeNetOkay {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.baidu.com";
-    NSString *output = [CLCShellUtils doShellScript:cmd];
+    CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
+    NSString *output = [shellExecutor doShellScript:cmd];
     return output != nil && [output containsString:@"200"];
 }
 

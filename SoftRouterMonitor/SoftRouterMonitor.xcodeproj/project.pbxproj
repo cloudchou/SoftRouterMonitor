@@ -15,6 +15,7 @@
 		37EB25174D1F5838428839D25FA6C166 /* CLCSoftRouterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 787108D7316B5580D40A5DC61440742E /* CLCSoftRouterManager.m */; };
 		3BDB15B4DDC189943BA39BF696345C34 /* CLCStatusMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = 72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */; };
 		56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */; };
+		5A5DE159499A59F1E2093C71 /* CLCShellExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5DEF659163D1F6F3750837 /* CLCShellExecutor.m */; };
 		9E565D97B2044C185D9FC0B2A63162CE /* CLCLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 92205BA5F7F30857699BCC142F865E4D /* CLCLogFormatter.m */; };
 		AE0BCB6D6FE6006FE452861543B2617A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */; };
 		B6FCD2A1ACE94FF56CE6E5FB1313344A /* CLCShellUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */; };
@@ -31,6 +32,8 @@
 		3C77117705B27920DFB4F7C6FC67B813 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		49361524BB4F6A72E65D0FCD7F4C9375 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4BCE70EF39C17DE156EA79690C82A987 /* CLCStatusMenuController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCStatusMenuController.h; sourceTree = "<group>"; };
+		5A5DE46863033B35766C7ACE /* CLCShellExecutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCShellExecutor.h; sourceTree = "<group>"; };
+		5A5DEF659163D1F6F3750837 /* CLCShellExecutor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCShellExecutor.m; sourceTree = "<group>"; };
 		5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		708C287E60F17C3D319F73D7CFE55336 /* CLCLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCLogFormatter.h; sourceTree = "<group>"; };
@@ -120,6 +123,8 @@
 				09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */,
 				BBEEA138C488031DABDA001D60166228 /* main.m */,
 				7504916F3BD0A5CE23888246DF82DD6E /* prefix.pch */,
+				5A5DEF659163D1F6F3750837 /* CLCShellExecutor.m */,
+				5A5DE46863033B35766C7ACE /* CLCShellExecutor.h */,
 			);
 			path = SoftRouterMonitor;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 				AE0BCB6D6FE6006FE452861543B2617A /* Reachability.m in Sources */,
 				56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */,
 				E1D7006D2743325815099D139CD63703 /* main.m in Sources */,
+				5A5DE159499A59F1E2093C71 /* CLCShellExecutor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
