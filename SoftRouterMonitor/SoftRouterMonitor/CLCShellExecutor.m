@@ -50,6 +50,7 @@
             break;
         }
     }
+    DDLogVerbose(@"try to read pipe data ");
     [self readPipeData:fileHandle];
     NSTimeInterval timeDiff = [[NSDate date] timeIntervalSince1970] - [currentTime timeIntervalSince1970];
     DDLogVerbose(@"shell output : %@, calculate time : %3.1f second cmd: %@ \n", cmdOutput, timeDiff, cmd);
@@ -68,12 +69,19 @@
 
 - (void)readPipeData:(NSFileHandle *)fileHandle {
     while (YES) {
-        NSData *data = [fileHandle availableData];
-        if ([data length]) {
-            NSString *temp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            [cmdOutput appendString:temp];
-            DDLogVerbose(@"shell temp output : %@ cmd: %@ ", temp, executingCmd);
-        } else {
+        DDLogVerbose(@"try to call availableData of file handle");
+        @try {
+            NSData *data = [fileHandle availableData];
+            DDLogVerbose(@"try to call availableData of file handle");
+            if ([data length]) {
+                NSString *temp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                [cmdOutput appendString:temp];
+                DDLogVerbose(@"shell temp output : %@ cmd: %@ ", temp, executingCmd);
+            } else {
+                break;
+            }
+        } @catch (NSException *exception) {
+            DDLogError(@"exception occurred : %@", exception);
             break;
         }
     }
