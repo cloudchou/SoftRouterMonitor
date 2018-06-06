@@ -51,7 +51,8 @@
         }
     }
     [self readPipeData:fileHandle];
-    DDLogVerbose(@"shell output : %@,  cmd: %@ \n", cmdOutput, cmd);
+    NSTimeInterval timeDiff = [[NSDate date] timeIntervalSince1970] - [currentTime timeIntervalSince1970];
+    DDLogVerbose(@"shell output : %@, calculate time : %3.1f second cmd: %@ \n", cmdOutput, timeDiff, cmd);
     if ([cmdOutput isEqualToString:@""]) {
         DDLogDebug(@"cmd output is empty for cmd : %@", cmd);
     }
