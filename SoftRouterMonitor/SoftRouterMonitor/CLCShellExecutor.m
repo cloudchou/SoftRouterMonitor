@@ -41,7 +41,7 @@
                                                object:fileHandle];
     [fileHandle waitForDataInBackgroundAndNotify];
     NSDate *currentTime = [NSDate date];
-    NSDate *timeoutTime = [NSDate dateWithTimeInterval:30 sinceDate:currentTime];
+    NSDate *timeoutTime = [NSDate dateWithTimeInterval:60 sinceDate:currentTime];
     while (!terminated) {
         BOOL runLoopResult = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutTime];
         DDLogVerbose(@"run loop end result : %d", runLoopResult);
@@ -50,24 +50,32 @@
             break;
         }
     }
-    DDLogVerbose(@"shell cmd : %@ \noutput :\n %@", cmd, cmdOutput);
+    [self readPipeData:fileHandle];
+    DDLogVerbose(@"shell output : %@,  cmd: %@ \n", cmdOutput, cmd);
+    if ([cmdOutput isEqualToString:@""]) {
+        DDLogDebug(@"cmd output is empty for cmd : %@", cmd);
+    }
+    [fileHandle closeFile];
     return cmdOutput;
 }
 
 - (void)outData:(NSNotification *)notification {
     NSFileHandle *outputFile = (NSFileHandle *)[notification object];
+    [self readPipeData:outputFile];
+    [outputFile waitForDataInBackgroundAndNotify];
+}
+
+- (void)readPipeData:(NSFileHandle *)fileHandle {
     while (YES) {
-        NSData *data = [outputFile availableData];
+        NSData *data = [fileHandle availableData];
         if ([data length]) {
             NSString *temp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
             [cmdOutput appendString:temp];
-            DDLogVerbose(@"shell cmd : %@ temp output :\n %@", executingCmd, temp);
+            DDLogVerbose(@"shell temp output : %@ cmd: %@ ", temp, executingCmd);
         } else {
             break;
         }
     }
-
-    [outputFile waitForDataInBackgroundAndNotify];
 }
 
 - (void)terminated:(NSNotification *)notification {
