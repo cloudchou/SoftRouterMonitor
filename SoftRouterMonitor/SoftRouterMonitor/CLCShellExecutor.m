@@ -3,6 +3,7 @@
 
 @implementation CLCShellExecutor {
     BOOL terminated;
+    BOOL outputEnded;
     NSMutableString *cmdOutput;
     NSString *executingCmd;
 }
@@ -12,6 +13,7 @@
     if (self) {
         cmdOutput = [[NSMutableString alloc] init];
         terminated = false;
+        outputEnded = false;
     }
     return self;
 }
@@ -36,13 +38,15 @@
                                                  name:NSTaskDidTerminateNotification
                                                object:task];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(outData:)
-                                                 name:NSFileHandleDataAvailableNotification
+                                             selector:@selector(dataEnd:)
+                                                 name:NSFileHandleReadToEndOfFileCompletionNotification
                                                object:fileHandle];
-    [fileHandle waitForDataInBackgroundAndNotify];
+    //    [fileHandle waitForDataInBackgroundAndNotify];
+    NSArray *modes = @[ NSDefaultRunLoopMode ];
+    [fileHandle readToEndOfFileInBackgroundAndNotifyForModes:modes];
     NSDate *currentTime = [NSDate date];
     NSDate *timeoutTime = [NSDate dateWithTimeInterval:60 sinceDate:currentTime];
-    while (!terminated) {
+    while (!outputEnded && !terminated) {
         BOOL runLoopResult = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:timeoutTime];
         DDLogVerbose(@"run loop end result : %d", runLoopResult);
         if ([[NSDate date] timeIntervalSince1970] > [timeoutTime timeIntervalSince1970]) {
@@ -50,8 +54,11 @@
             break;
         }
     }
-    DDLogVerbose(@"try to read pipe data ");
-    [self readPipeData:fileHandle];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    //    DDLogVerbose(@"try to read pipe data ");
+    //    if (terminated) {
+    //        [self readPipeData:fileHandle];
+    //    }
     NSTimeInterval timeDiff = [[NSDate date] timeIntervalSince1970] - [currentTime timeIntervalSince1970];
     DDLogVerbose(@"shell output : %@, calculate time : %3.1f second cmd: %@ \n", cmdOutput, timeDiff, cmd);
     if ([cmdOutput isEqualToString:@""]) {
@@ -67,29 +74,39 @@
     [outputFile waitForDataInBackgroundAndNotify];
 }
 
+- (void)dataEnd:(NSNotification *)notification {
+    NSDictionary *dictionary = [notification userInfo];
+    NSNumber *errorCode = dictionary[@"NSFileHandleError"];
+    if ([errorCode intValue] == 0) {
+        NSData *data = dictionary[NSFileHandleNotificationDataItem];
+        NSString *temp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        [cmdOutput appendString:temp];
+        DDLogVerbose(@"shell temp output : %@ cmd: %@ ", temp, executingCmd);
+    }
+    outputEnded = true;
+}
+
 - (void)readPipeData:(NSFileHandle *)fileHandle {
-    while (YES) {
-        DDLogVerbose(@"try to call availableData of file handle");
-        @try {
-            NSData *data = [fileHandle availableData];
-            DDLogVerbose(@"try to call availableData of file handle");
-            if ([data length]) {
-                NSString *temp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                [cmdOutput appendString:temp];
-                DDLogVerbose(@"shell temp output : %@ cmd: %@ ", temp, executingCmd);
-            } else {
-                break;
-            }
-        } @catch (NSException *exception) {
-            DDLogError(@"exception occurred : %@", exception);
-            break;
+    DDLogVerbose(@"try to call availableData of file handle");
+    @try {
+        // availableData 没有数据时 availableData会阻塞 如果读到结尾 会返回 空对象
+        // 如果读失败 会抛出异常 NSFileHandleOperationException
+        NSData *data = [fileHandle availableData];
+        DDLogVerbose(@"try to call availableData of file handle end");
+        if ([data length]) {
+            NSString *temp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            [cmdOutput appendString:temp];
+            DDLogVerbose(@"shell temp output : %@ cmd: %@ ", temp, executingCmd);
+        } else {
+            DDLogVerbose(@"no data ...");
         }
+    } @catch (NSException *exception) {
+        DDLogError(@"exception occurred : %@", exception);
     }
 }
 
 - (void)terminated:(NSNotification *)notification {
     NSLog(@"Task terminated, cmd : %@", executingCmd);
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     terminated = YES;
 }
 
