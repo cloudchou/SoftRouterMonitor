@@ -30,7 +30,8 @@
               self.operateStatus = SoftRouterOperateStatusNone;
           } else {
               self.operateStatus = SoftRouterOperateStatusStarting;
-              [[NSUserDefaults standardUserDefaults] setBool:YES forKey:NS_USER_DEF_KEY_USER_PREFER_SOFT_ROUTER_STARTED];
+              [[NSUserDefaults standardUserDefaults] setBool:YES
+                                                      forKey:NS_USER_DEF_KEY_USER_PREFER_SOFT_ROUTER_STARTED];
               [CLCMiscUtils startSoftRouterVm];
               [CLCMiscUtils waitForSoftRouterVmStarted:10];
               self.operateStatus = SoftRouterOperateStatusNone;
@@ -148,6 +149,10 @@
     BOOL softRouterVmHomeNetOkay = [CLCMiscUtils isSoftRouterVmHomeNetOkay];
     if (softRouterVmHomeNetOkay) {  // 切换到 软路由
         DDLogDebug(@"soft router vm net ok, now we can connect to soft router ");
+        if (![CLCMiscUtils isSoftRouterShadowSocksServiceStarted]) {
+            DDLogDebug(@"soft router shadow socks service not started, we have to start it");
+            [CLCMiscUtils startSoftRouterShadowSocksService];
+        }
         [self connectToSoftRouterIfNeed];
     } else {  // 切换到真实路由
         DDLogDebug(@"soft router vm net not ok, now we have to connect to real router ");

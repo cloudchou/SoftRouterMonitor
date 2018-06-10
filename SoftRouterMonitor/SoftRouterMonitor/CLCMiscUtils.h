@@ -11,12 +11,14 @@
 
 @interface CLCMiscUtils : NSObject
 
++ (void)startSoftRouterShadowSocksService;
 + (BOOL)isSoftRouterVmParamOkay;
 + (void)waitForSoftRouterHomeNetOk:(NSInteger)timeout;
 + (void)connectNetToRealRouter;
 + (void)connectNetToSoftRouter;
 + (BOOL)isHomeNetOkay;
 + (BOOL)isForeignNetOkay;
++ (BOOL)isSoftRouterShadowSocksServiceStarted;
 + (BOOL)isSoftRouterVmHomeNetOkay;
 + (BOOL)isSoftRouterVmForeignNetOkay;
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout;

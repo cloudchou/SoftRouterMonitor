@@ -138,6 +138,21 @@
     return output != nil && [output containsString:@"200"];
 }
 
++ (BOOL)isSoftRouterShadowSocksServiceStarted {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
+    NSString *cmd = @"ssh root@192.168.100.1 'pgrep -l /usr/bin/ss|grep redir'";
+    CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
+    NSString *output = [shellExecutor doShellScript:cmd];
+    return output != nil && [output containsString:@"ssr-redir"];
+}
+
++ (void)startSoftRouterShadowSocksService {
+    DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
+    NSString *cmd = @"ssh root@192.168.100.1 '/etc/init.d/shadowsocks start'";
+    NSString *output = [CLCShellUtils doShellScript:cmd waitForOutput:YES];
+    DDLogVerbose(@"start soft router shadow socks service output : %@", output);
+}
+
 + (BOOL)isForeignNetOkay {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *cmd = @"curl -o /dev/null -s -m 30  --connect-timeout 30 -w %{http_code} https://www.google.com.tw";
