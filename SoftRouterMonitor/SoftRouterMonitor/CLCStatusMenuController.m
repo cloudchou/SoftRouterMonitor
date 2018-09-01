@@ -28,7 +28,14 @@
 }
 
 - (IBAction)gotoSoftRouterStatusMonitorView:(id)sender {
-    [self.mainWindowController showWindow:self];
+    //    [self.mainWindowController close];
+    if (![self.mainWindowController.window isVisible]) {
+        [self.mainWindowController showWindow:self];
+    } else {
+        //        [self.mainWindowController.window orderWindow:NSWindowAbove relativeTo:0];
+        [self.mainWindowController.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+        [NSApp activateIgnoringOtherApps:YES];
+    }
 }
 
 - (IBAction)switchToSoftRouter:(id)sender {
