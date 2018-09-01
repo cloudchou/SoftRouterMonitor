@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "CLCLogger.h"
 #import "CLCNetInterfaceStatusManager.h"
+// #import "CLCHttpServer.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +21,7 @@
     // Insert code here to initialize your application
     [CLCLogger initCocoaLumberJackLog:@"SoftRouterMonitor"];
     [[CLCNetInterfaceStatusManager instance] startWork];
+    // [[CLCHttpServer instance]startWork];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

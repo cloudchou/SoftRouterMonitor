@@ -11,6 +11,6 @@ target 'SoftRouterMonitor' do
 
   pod 'CocoaLumberjack', :inhibit_warnings => true
   pod 'ReactiveObjC', :inhibit_warnings => true
-
+  pod "GCDWebServer", "~> 3.0", :inhibit_warnings => true
 
 end

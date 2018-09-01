@@ -5,16 +5,21 @@ PODS:
   - CocoaLumberjack/Default (3.4.0)
   - CocoaLumberjack/Extensions (3.4.0):
     - CocoaLumberjack/Default
+  - GCDWebServer (3.4.2):
+    - GCDWebServer/Core (= 3.4.2)
+  - GCDWebServer/Core (3.4.2)
   - ReactiveObjC (3.1.0)
 
 DEPENDENCIES:
   - CocoaLumberjack
+  - GCDWebServer (~> 3.0)
   - ReactiveObjC
 
 SPEC CHECKSUMS:
   CocoaLumberjack: e033a5d8513357af2dd456eb66e202c325c30627
+  GCDWebServer: 8d67ee9f634b4bb91eb4b8aee440318a5fc6debd
   ReactiveObjC: 2a38ea15335de4119d8b17caf1db1484f61db902
 
-PODFILE CHECKSUM: 3f1d0021e3e67ad2da7852c5ace94aff01d92657
+PODFILE CHECKSUM: 974109c0eeb5a6df90c3e9f9c43af4af44011c7c
 
 COCOAPODS: 1.4.0
