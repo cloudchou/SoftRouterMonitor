@@ -114,12 +114,18 @@
 }
 
 - (void)keyDown:(NSEvent *)event {
-    NSEventModifierFlags flags = NSEvent.modifierFlags & NSCommandKeyMask;
-    if (flags && event.keyCode == 12)  // command +q
-    {
+    NSEventModifierFlags flags = NSEvent.modifierFlags & NSEventModifierFlagCommand;
+    if (flags && event.keyCode == 12) {  // command +q
         [NSApplication.sharedApplication terminate:self];
-    } else if (flags && event.keyCode == 13)  // command +w
-    {
+    } else if (flags && event.keyCode == 18) {  // command + 1
+        [[CLCSoftRouterManager instance] connectNetToSoftRouter];
+    } else if (flags && event.keyCode == 19) {  // command + 2
+        [[CLCSoftRouterManager instance] connectNetToRealRouter];
+    } else if (flags && event.keyCode == 20) {  // command + 3
+        [self onOpenSoftRouterVmVpnSetting:nil];
+    } else if (flags && event.keyCode == 21) {  // command + 4
+        [self openLogDir:nil];
+    } else if (flags && event.keyCode == 13) {  // command + w
         __kindof NSWindowController *windowController1 = [self.view.window windowController];
         [windowController1 close];
     }
