@@ -9,8 +9,6 @@
 
 @interface CLCStatusMenuController : NSObject
 @property (weak) IBOutlet NSMenu *statusBarMenu;
-
- 
+@property(nonatomic, strong, readonly) NSWindowController *mainWindowController;
 @property (strong) NSStatusItem *statusItem;
-
 @end

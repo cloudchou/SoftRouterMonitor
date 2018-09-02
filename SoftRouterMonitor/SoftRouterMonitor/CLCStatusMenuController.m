@@ -3,6 +3,7 @@
 #import "CLCShellUtils.h"
 #import "CLCSoftRouterManager.h"
 #import "CLCStatusMenuController.h"
+#import "CLCViewHolder.h"
 #import "ReactiveObjC/ReactiveObjC.h"
 
 @interface CLCStatusMenuController ()
@@ -69,6 +70,7 @@
     self.statusItem.target = self;
     self.statusItem.action = @selector(onStatusItemClicked);
     [self monitorOperateStatusToChangeIcon];
+    [[CLCViewHolder instance]setMenuController:self];
 }
 
 - (void)monitorOperateStatusToChangeIcon {

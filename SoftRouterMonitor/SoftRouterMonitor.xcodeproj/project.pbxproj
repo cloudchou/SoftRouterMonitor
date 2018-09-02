@@ -17,6 +17,7 @@
 		56E05780FC6CA104C7DFD325F54BF7AE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 09E3505FF80FFB6E3470E6438D44046A /* ViewController.m */; };
 		5A5DE159499A59F1E2093C71 /* CLCShellExecutor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A5DEF659163D1F6F3750837 /* CLCShellExecutor.m */; };
 		6102A42C213AE546002796B7 /* CLCHttpServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6102A42B213AE546002796B7 /* CLCHttpServer.m */; };
+		6102A42F213C3632002796B7 /* CLCViewHolder.m in Sources */ = {isa = PBXBuildFile; fileRef = 6102A42E213C3632002796B7 /* CLCViewHolder.m */; };
 		9E565D97B2044C185D9FC0B2A63162CE /* CLCLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 92205BA5F7F30857699BCC142F865E4D /* CLCLogFormatter.m */; };
 		AE0BCB6D6FE6006FE452861543B2617A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */; };
 		B6FCD2A1ACE94FF56CE6E5FB1313344A /* CLCShellUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = D47ECECF81739ABB7E079D499DD1E373 /* CLCShellUtils.m */; };
@@ -38,6 +39,8 @@
 		5AC904AD5C1CC0F023164AC0FA09129E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6102A42A213AE546002796B7 /* CLCHttpServer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLCHttpServer.h; sourceTree = "<group>"; };
 		6102A42B213AE546002796B7 /* CLCHttpServer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLCHttpServer.m; sourceTree = "<group>"; };
+		6102A42D213C3632002796B7 /* CLCViewHolder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CLCViewHolder.h; sourceTree = "<group>"; };
+		6102A42E213C3632002796B7 /* CLCViewHolder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CLCViewHolder.m; sourceTree = "<group>"; };
 		6B5A834B2D65CE95E94F80A3785DA2B0 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		708C287E60F17C3D319F73D7CFE55336 /* CLCLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLCLogFormatter.h; sourceTree = "<group>"; };
 		72D3E3162B8989D76F1E7974094071CD /* CLCStatusMenuController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLCStatusMenuController.m; sourceTree = "<group>"; };
@@ -130,6 +133,8 @@
 				5A5DE46863033B35766C7ACE /* CLCShellExecutor.h */,
 				6102A42A213AE546002796B7 /* CLCHttpServer.h */,
 				6102A42B213AE546002796B7 /* CLCHttpServer.m */,
+				6102A42D213C3632002796B7 /* CLCViewHolder.h */,
+				6102A42E213C3632002796B7 /* CLCViewHolder.m */,
 			);
 			path = SoftRouterMonitor;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 			files = (
 				06274392373D51C0E191DB690B3A601A /* AppDelegate.m in Sources */,
 				9E565D97B2044C185D9FC0B2A63162CE /* CLCLogFormatter.m in Sources */,
+				6102A42F213C3632002796B7 /* CLCViewHolder.m in Sources */,
 				F3F7AC24CF0FE60A054B240529656E16 /* CLCLogger.m in Sources */,
 				1480BAD8FBFE0BB01DAA136D9E0BC320 /* CLCMiscUtils.m in Sources */,
 				B7D04D522F2D4F440098C4D58A5C0908 /* CLCNetInterfaceStatusManager.m in Sources */,
