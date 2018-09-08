@@ -176,6 +176,8 @@
                                 <buttonCell key="cell" type="push" title="一键切换至真实路由(CMD+2)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fHK-0Y-bM9">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <string key="keyEquivalent">2</string>
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="onSwitchNetToRealRouter:" target="ERz-rt-uYZ" id="bA2-bC-mAz"/>
@@ -288,6 +290,8 @@
                                 <buttonCell key="cell" type="push" title="打开虚拟机VPN设置(CMD+3)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DVm-fp-QgY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <string key="keyEquivalent">3</string>
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                     <connections>
                                         <action selector="onOpenSoftRouterVmVpnSetting:" target="ERz-rt-uYZ" id="QtD-cL-szR"/>
                                     </connections>
@@ -299,6 +303,8 @@
                                 <buttonCell key="cell" type="push" title="一键切换至软路由(CMD+1)" bezelStyle="rounded" alignment="center" borderStyle="border" focusRingType="exterior" imageScaling="proportionallyDown" inset="2" id="4Rm-ff-UeL">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <string key="keyEquivalent">1</string>
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                     <connections>
                                         <action selector="onSwitchNetToSoftRouter:" target="ERz-rt-uYZ" id="5en-o7-xd9"/>
                                     </connections>
@@ -313,6 +319,8 @@
                                 <buttonCell key="cell" type="push" title="打开日志文件夹(CMD+4)" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HjZ-eQ-IQD">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" size="13" name=".PingFangSC-Regular"/>
+                                    <string key="keyEquivalent">4</string>
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="openLogDir:" target="ERz-rt-uYZ" id="Bdy-X7-DiE"/>
