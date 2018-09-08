@@ -49,7 +49,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.switchSoftRouterVmButton setKeyEquivalent:@"\r"];
+    //    [self.switchSoftRouterVmButton setKeyEquivalent:@"\r"];
     //    [self.switchSoftRouterVmButton becomeFirstResponder];
 }
 
