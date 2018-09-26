@@ -8,10 +8,10 @@
 
 + (BOOL)isSoftRouterStarted {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
-    //    /usr/local/bin/VBoxManage list runningvms | grep lede-v2.6-x64
+    //    /usr/local/bin/VBoxManage list runningvms | grep openwrt-koolshare-v2.22-x64
     // 注意: 已将App的Sandbox选项关闭了，否则执行/usr/local/bin/VBoxManage命令会抛权限错误 Operation Not Permitted
     NSString *output = [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage list runningvms"];
-    return output != nil && [output containsString:@"lede-v2.6-x64"];
+    return output != nil && [output containsString:@"openwrt-koolshare-v2.22-x64"];
 }
 
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout {
@@ -34,9 +34,9 @@
 
 + (void)stopSoftRouterVm {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
-    //    NSString *cmd =@"/usr/local/bin/VBoxManage controlvm lede-v2.6-x64 savestate";
+    //    NSString *cmd =@"/usr/local/bin/VBoxManage controlvm openwrt-koolshare-v2.22-x64 savestate";
     //    [CLCShellUtils doShellScript:cmd];
-    [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage controlvm lede-v2.6-x64 poweroff"];
+    [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage controlvm openwrt-koolshare-v2.22-x64 poweroff"];
 }
 
 + (void)startSoftRouterVm {
@@ -45,22 +45,27 @@
     BOOL usbEnabled = [self isInterfaceEnabled:INTERFACE_USB];
     if (wifiEnabled && usbEnabled) {
         [CLCShellUtils
-            doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic2 bridged  --bridgeadapter2 en7"];
+            doShellScript:
+                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic2 bridged  --bridgeadapter2 en7"];
         [CLCShellUtils
-            doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 bridged  --bridgeadapter3 en0"];
+            doShellScript:
+                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 bridged  --bridgeadapter3 en0"];
     } else if (wifiEnabled) {
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic2 none"];
+        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic2 none"];
         [CLCShellUtils
-            doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 bridged  --bridgeadapter3 en0"];
+            doShellScript:
+                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 bridged  --bridgeadapter3 en0"];
     } else if (usbEnabled) {
         [CLCShellUtils
-            doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic2 bridged  --bridgeadapter2 en7"];
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 none"];
+            doShellScript:
+                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic2 bridged  --bridgeadapter2 en7"];
+        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 none"];
     } else {
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 none"];
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm lede-v2.6-x64 --nic3 none"];
+        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 none"];
+        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 none"];
     }
-    [CLCShellUtils doShellScript:@"nohup /usr/local/bin/VBoxHeadless -s lede-v2.6-x64 &" waitForOutput:NO];
+    [CLCShellUtils doShellScript:@"nohup /usr/local/bin/VBoxHeadless -s openwrt-koolshare-v2.22-x64 &"
+                   waitForOutput:NO];
 }
 
 + (BOOL)isSoftRouterVmParamOkay {
@@ -83,8 +88,9 @@
 + (BOOL)isVmInterfaceEnabled:(NSString *)interfaceName {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *interfaceStatusCmd = [NSString
-        stringWithFormat:@"/usr/local/bin/VBoxManage showvminfo lede-v2.6-x64 | grep -E 'NIC (2|3)' |grep '%@' ",
-                         interfaceName];
+        stringWithFormat:
+            @"/usr/local/bin/VBoxManage showvminfo openwrt-koolshare-v2.22-x64 | grep -E 'NIC (2|3)' |grep '%@' ",
+            interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
     return output != nil && ![output isEqualToString:@""];
 }
