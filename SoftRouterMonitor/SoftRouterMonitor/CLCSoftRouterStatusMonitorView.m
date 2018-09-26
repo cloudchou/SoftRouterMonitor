@@ -198,7 +198,7 @@
       self.computingVmForeignNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingVmForeignNetStatus);
-    RACDisposable *disposable = [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]]
+    RACDisposable *disposable = [[[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] deliverOnMainThread]
         subscribeNext:^(RACTuple *x) {
           NSNumber *vmStatus = x.first;
           NSNumber *computingStatus = x.second;
@@ -230,7 +230,7 @@
       self.computingVmHomeNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingVmHomeNetStatus);
-    RACDisposable *disposable = [[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]]
+    RACDisposable *disposable = [[[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] deliverOnMainThread]
         subscribeNext:^(RACTuple *x) {
           NSNumber *vmStatus = x.first;
           NSNumber *computingStatus = x.second;
@@ -263,7 +263,7 @@
     }];
     RACSignal *computingSignal = RACObserve(self, computingForeignNetStatus);
     RACDisposable *disposable =
-        [[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
+        [[[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] deliverOnMainThread] subscribeNext:^(RACTuple *x) {
           NSNumber *computingStatus = x.first;
           NSNumber *netStatus = x.second;
           if (computingStatus.boolValue) {
@@ -290,7 +290,7 @@
     }];
     RACSignal *computingSignal = RACObserve(self, computingHomeNetStatus);
     RACDisposable *disposable =
-        [[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] subscribeNext:^(RACTuple *x) {
+        [[[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] deliverOnMainThread] subscribeNext:^(RACTuple *x) {
           NSNumber *computingStatus = x.first;
           NSNumber *netStatus = x.second;
           if (computingStatus.boolValue) {
@@ -312,11 +312,11 @@
     RACSignal *opStatusSignal =
         [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
-    self.updateWifiDnsStatusDisposable = [[changeSignal map:^id(id value) {
+    self.updateWifiDnsStatusDisposable = [[[changeSignal map:^id(id value) {
       NSString *wifiDns = [CLCMiscUtils getInterfaceDns:INTERFACE_WIFI];
       BOOL isInterfaceEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_WIFI];
       return [RACTwoTuple pack:@(isInterfaceEnabled):wifiDns];
-    }] subscribeNext:^(RACTwoTuple *x) {
+    }] deliverOnMainThread] subscribeNext:^(RACTwoTuple *x) {
       NSNumber *enabled = x.first;
       [self updateNetDnsStatus:self.wifiDnsStatusLabel isEnabled:enabled.boolValue dnsStr:x.second];
     }];
@@ -328,10 +328,10 @@
     RACSignal *opStatusSignal =
         [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
-    self.updateDefaultGatewayStatusDisposable = [[changeSignal map:^id(id value) {
+    self.updateDefaultGatewayStatusDisposable = [[[changeSignal map:^id(id value) {
       NSString *output = [CLCMiscUtils getDefaultGateway];
       return output;
-    }] subscribeNext:^(NSString *x) {
+    }] deliverOnMainThread] subscribeNext:^(NSString *x) {
       if ([x containsString:@"192.168.100.1"]) {
           [self.defaultGatewayStatusLabel setStringValue:@"SoftRouter"];
       } else {
@@ -346,11 +346,11 @@
     RACSignal *opStatusSignal =
         [RACObserve([CLCSoftRouterManager instance], operateStatus) deliverOn:[RACScheduler scheduler]];
     RACSignal *changeSignal = [RACSignal combineLatest:@[ opStatusSignal, timeSignal ]];
-    self.updateUsbDnsStatusDisposable = [[changeSignal map:^id(id value) {
+    self.updateUsbDnsStatusDisposable = [[[changeSignal map:^id(id value) {
       NSString *usbDns = [CLCMiscUtils getInterfaceDns:INTERFACE_USB];
       BOOL isInterfaceEnabled = [CLCMiscUtils isInterfaceEnabled:INTERFACE_USB];
       return [RACTwoTuple pack:@(isInterfaceEnabled):usbDns];
-    }] subscribeNext:^(RACTwoTuple *x) {
+    }] deliverOnMainThread] subscribeNext:^(RACTwoTuple *x) {
       NSNumber *enabled = x.first;
       [self updateNetDnsStatus:self.usbDnsStatusLabel isEnabled:enabled.boolValue dnsStr:x.second];
     }];

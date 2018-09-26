@@ -162,7 +162,7 @@
 
 + (BOOL)isSoftRouterShadowSocksServiceStarted {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
-    NSString *cmd = @"ssh root@192.168.100.1 'pgrep -l /usr/bin/ss|grep redir'";
+    NSString *cmd = @"ssh root@192.168.100.1 'pgrep -l ss|grep redir'";
     CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
     NSString *output = [shellExecutor doShellScript:cmd];
     return output != nil && [output containsString:@"ssr-redir"];
@@ -170,7 +170,7 @@
 
 + (void)startSoftRouterShadowSocksService {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
-    NSString *cmd = @"ssh root@192.168.100.1 '/etc/init.d/shadowsocks start'";
+    NSString *cmd = @"ssh root@192.168.100.1 '/koolshare/ss/ssstart.sh start'";
     NSString *output = [CLCShellUtils doShellScript:cmd waitForOutput:YES];
     DDLogVerbose(@"start soft router shadow socks service output : %@", output);
 }

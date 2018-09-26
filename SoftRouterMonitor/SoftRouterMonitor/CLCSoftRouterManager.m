@@ -153,6 +153,7 @@
             DDLogDebug(@"soft router shadow socks service not started, we have to start it");
             [CLCMiscUtils startSoftRouterShadowSocksService];
         }
+        DDLogDebug(@"soft router shadow socks service started, connect to soft router if needed");
         [self connectToSoftRouterIfNeed];
     } else {  // 切换到真实路由
         DDLogDebug(@"soft router vm net not ok, now we have to connect to real router ");
