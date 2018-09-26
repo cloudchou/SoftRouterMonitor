@@ -32,6 +32,8 @@
     //    [self.mainWindowController close];
     if (![self.mainWindowController.window isVisible]) {
         [self.mainWindowController showWindow:self];
+        //        [self.mainWindowController.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
+        [NSApp activateIgnoringOtherApps:YES];
     } else {
         //        [self.mainWindowController.window orderWindow:NSWindowAbove relativeTo:0];
         [self.mainWindowController.window setCollectionBehavior:NSWindowCollectionBehaviorMoveToActiveSpace];
@@ -70,7 +72,7 @@
     self.statusItem.target = self;
     self.statusItem.action = @selector(onStatusItemClicked);
     [self monitorOperateStatusToChangeIcon];
-    [[CLCViewHolder instance]setMenuController:self];
+    [[CLCViewHolder instance] setMenuController:self];
 }
 
 - (void)monitorOperateStatusToChangeIcon {
