@@ -99,10 +99,10 @@
 
 + (BOOL)isVmInterfaceEnabled:(NSString *)interfaceName {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
-    NSString *interfaceStatusCmd = [NSString
-        stringWithFormat:
-            @"/usr/local/bin/VBoxManage showvminfo openwrt-koolshare-v2.22-x64 | grep -E 'NIC (2|3)' |grep '%@' ",
-            interfaceName];
+    NSString *softRouterVmName = [self getSoftRouterVmName];
+    NSString *interfaceStatusCmd =
+        [NSString stringWithFormat:@"/usr/local/bin/VBoxManage showvminfo %@ | grep -E 'NIC (2|3)' |grep '%@' ",
+                                   softRouterVmName, interfaceName];
     NSString *output = [CLCShellUtils doShellScript:interfaceStatusCmd];
     return output != nil && ![output isEqualToString:@""];
 }
