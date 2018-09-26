@@ -11,7 +11,7 @@
     //    /usr/local/bin/VBoxManage list runningvms | grep openwrt-koolshare-v2.22-x64
     // 注意: 已将App的Sandbox选项关闭了，否则执行/usr/local/bin/VBoxManage命令会抛权限错误 Operation Not Permitted
     NSString *output = [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage list runningvms"];
-    return output != nil && [output containsString:@"openwrt-koolshare-v2.22-x64"];
+    return output != nil && [output containsString:[self getSoftRouterVmName]];
 }
 
 + (void)waitForSoftRouterVmStarted:(NSInteger)timeout {
@@ -36,36 +36,48 @@
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     //    NSString *cmd =@"/usr/local/bin/VBoxManage controlvm openwrt-koolshare-v2.22-x64 savestate";
     //    [CLCShellUtils doShellScript:cmd];
-    [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage controlvm openwrt-koolshare-v2.22-x64 poweroff"];
+    NSString *cmd =
+        [NSString stringWithFormat:@"/usr/local/bin/VBoxManage controlvm %@ poweroff ", [self getSoftRouterVmName]];
+    [CLCShellUtils doShellScript:cmd];
 }
 
 + (void)startSoftRouterVm {
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     BOOL wifiEnabled = [self isInterfaceEnabled:INTERFACE_WIFI];
     BOOL usbEnabled = [self isInterfaceEnabled:INTERFACE_USB];
+    NSString *softRouterVmName = [self getSoftRouterVmName];
     if (wifiEnabled && usbEnabled) {
         [CLCShellUtils
-            doShellScript:
-                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic2 bridged  --bridgeadapter2 en7"];
+            doShellScript:[NSString stringWithFormat:
+                                        @"/usr/local/bin/VBoxManage modifyvm %@ --nic2 bridged  --bridgeadapter2 en7",
+                                        softRouterVmName]];
         [CLCShellUtils
-            doShellScript:
-                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 bridged  --bridgeadapter3 en0"];
+            doShellScript:[NSString stringWithFormat:
+                                        @"/usr/local/bin/VBoxManage modifyvm %@ --nic3 bridged  --bridgeadapter3 en0",
+                                        softRouterVmName]];
     } else if (wifiEnabled) {
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic2 none"];
+        [CLCShellUtils doShellScript:[NSString stringWithFormat:@"/usr/local/bin/VBoxManage modifyvm %@ --nic2 none",
+                                                                softRouterVmName]];
         [CLCShellUtils
-            doShellScript:
-                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 bridged  --bridgeadapter3 en0"];
+            doShellScript:[NSString stringWithFormat:
+                                        @"/usr/local/bin/VBoxManage modifyvm %@ --nic3 bridged  --bridgeadapter3 en0",
+                                        softRouterVmName]];
     } else if (usbEnabled) {
         [CLCShellUtils
-            doShellScript:
-                @"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic2 bridged  --bridgeadapter2 en7"];
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 none"];
+            doShellScript:[NSString stringWithFormat:
+                                        @"/usr/local/bin/VBoxManage modifyvm %@ --nic2 bridged  --bridgeadapter2 en7",
+                                        softRouterVmName]];
+        [CLCShellUtils doShellScript:[NSString stringWithFormat:@"/usr/local/bin/VBoxManage modifyvm %@ --nic3 none",
+                                                                softRouterVmName]];
     } else {
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 none"];
-        [CLCShellUtils doShellScript:@"/usr/local/bin/VBoxManage modifyvm openwrt-koolshare-v2.22-x64 --nic3 none"];
+        [CLCShellUtils doShellScript:[NSString stringWithFormat:@"/usr/local/bin/VBoxManage modifyvm %@ --nic2 none",
+                                                                softRouterVmName]];
+        [CLCShellUtils doShellScript:[NSString stringWithFormat:@"/usr/local/bin/VBoxManage modifyvm %@ --nic3 none",
+                                                                softRouterVmName]];
     }
-    [CLCShellUtils doShellScript:@"nohup /usr/local/bin/VBoxHeadless -s openwrt-koolshare-v2.22-x64 &"
-                   waitForOutput:NO];
+    [CLCShellUtils
+        doShellScript:[NSString stringWithFormat:@"nohup /usr/local/bin/VBoxHeadless -s %@ &", softRouterVmName]
+        waitForOutput:NO];
 }
 
 + (BOOL)isSoftRouterVmParamOkay {
@@ -122,6 +134,10 @@
     DDLogVerbose(@"%@", NSStringFromSelector(_cmd));
     NSString *output = [self getDefaultGateway];
     return output != nil && [output containsString:@"192.168.100.1"];
+}
+
++ (NSString *)getSoftRouterVmName {
+    return @"openwrt-koolshare-v2.15-x64";
 }
 
 + (BOOL)isSoftRouterVmForeignNetOkay {
