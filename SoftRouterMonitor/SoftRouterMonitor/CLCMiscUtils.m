@@ -165,7 +165,7 @@
     NSString *cmd = @"ssh root@192.168.100.1 'pgrep -l ss|grep redir'";
     CLCShellExecutor *shellExecutor = [[CLCShellExecutor alloc] init];
     NSString *output = [shellExecutor doShellScript:cmd];
-    return output != nil && [output containsString:@"ssr-redir"];
+    return output != nil && [output containsString:@"redir"];
 }
 
 + (void)startSoftRouterShadowSocksService {
