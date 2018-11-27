@@ -96,7 +96,7 @@
 }
 
 - (IBAction)onOpenSoftRouterVmVpnSetting:(id)sender {
-    NSString *url = @"http://192.168.100.1/cgi-bin/luci/admin/koolsoft#/Module_koolss.asp";
+    NSString *url = @"http://openwrt/cgi-bin/luci//admin/koolsoft#/Module_koolss.asp";
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
@@ -198,25 +198,25 @@
       self.computingVmForeignNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingVmForeignNetStatus);
-    RACDisposable *disposable = [[[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] deliverOnMainThread]
-        subscribeNext:^(RACTuple *x) {
-          NSNumber *vmStatus = x.first;
-          NSNumber *computingStatus = x.second;
-          NSNumber *vmNetStatus = x.third;
-          if (!vmStatus.boolValue) {
-              [self.softRouterForeignNetStatusLabel setStringValue:@"软路由未启动"];
+    RACDisposable *disposable = [[[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]]
+        deliverOnMainThread] subscribeNext:^(RACTuple *x) {
+      NSNumber *vmStatus = x.first;
+      NSNumber *computingStatus = x.second;
+      NSNumber *vmNetStatus = x.third;
+      if (!vmStatus.boolValue) {
+          [self.softRouterForeignNetStatusLabel setStringValue:@"软路由未启动"];
+      } else {
+          if (computingStatus.boolValue) {
+              [self.softRouterForeignNetStatusLabel setStringValue:@"计算中..."];
           } else {
-              if (computingStatus.boolValue) {
-                  [self.softRouterForeignNetStatusLabel setStringValue:@"计算中..."];
+              if (vmNetStatus.boolValue) {
+                  [self.softRouterForeignNetStatusLabel setStringValue:@"连接正常"];
               } else {
-                  if (vmNetStatus.boolValue) {
-                      [self.softRouterForeignNetStatusLabel setStringValue:@"连接正常"];
-                  } else {
-                      [self.softRouterForeignNetStatusLabel setStringValue:@"连接失败"];
-                  }
+                  [self.softRouterForeignNetStatusLabel setStringValue:@"连接失败"];
               }
           }
-        }];
+      }
+    }];
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
 
@@ -230,25 +230,25 @@
       self.computingVmHomeNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingVmHomeNetStatus);
-    RACDisposable *disposable = [[[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]] deliverOnMainThread]
-        subscribeNext:^(RACTuple *x) {
-          NSNumber *vmStatus = x.first;
-          NSNumber *computingStatus = x.second;
-          NSNumber *vmNetStatus = x.third;
-          if (!vmStatus.boolValue) {
-              [self.softRouterHomeNetStatusLabel setStringValue:@"软路由未启动"];
+    RACDisposable *disposable = [[[RACSignal combineLatest:@[ vmStatusSignal, computingSignal, vmNetStatusSignal ]]
+        deliverOnMainThread] subscribeNext:^(RACTuple *x) {
+      NSNumber *vmStatus = x.first;
+      NSNumber *computingStatus = x.second;
+      NSNumber *vmNetStatus = x.third;
+      if (!vmStatus.boolValue) {
+          [self.softRouterHomeNetStatusLabel setStringValue:@"软路由未启动"];
+      } else {
+          if (computingStatus.boolValue) {
+              [self.softRouterHomeNetStatusLabel setStringValue:@"计算中..."];
           } else {
-              if (computingStatus.boolValue) {
-                  [self.softRouterHomeNetStatusLabel setStringValue:@"计算中..."];
+              if (vmNetStatus.boolValue) {
+                  [self.softRouterHomeNetStatusLabel setStringValue:@"连接正常"];
               } else {
-                  if (vmNetStatus.boolValue) {
-                      [self.softRouterHomeNetStatusLabel setStringValue:@"连接正常"];
-                  } else {
-                      [self.softRouterHomeNetStatusLabel setStringValue:@"连接失败"];
-                  }
+                  [self.softRouterHomeNetStatusLabel setStringValue:@"连接失败"];
               }
           }
-        }];
+      }
+    }];
     [self.updateNetOkStatusDisposableArr addObject:disposable];
 }
 
@@ -262,8 +262,8 @@
       self.computingForeignNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingForeignNetStatus);
-    RACDisposable *disposable =
-        [[[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] deliverOnMainThread] subscribeNext:^(RACTuple *x) {
+    RACDisposable *disposable = [[[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] deliverOnMainThread]
+        subscribeNext:^(RACTuple *x) {
           NSNumber *computingStatus = x.first;
           NSNumber *netStatus = x.second;
           if (computingStatus.boolValue) {
@@ -289,8 +289,8 @@
       self.computingHomeNetStatus = NO;
     }];
     RACSignal *computingSignal = RACObserve(self, computingHomeNetStatus);
-    RACDisposable *disposable =
-        [[[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] deliverOnMainThread] subscribeNext:^(RACTuple *x) {
+    RACDisposable *disposable = [[[RACSignal combineLatest:@[ computingSignal, netStatusSignal ]] deliverOnMainThread]
+        subscribeNext:^(RACTuple *x) {
           NSNumber *computingStatus = x.first;
           NSNumber *netStatus = x.second;
           if (computingStatus.boolValue) {
