@@ -58,7 +58,7 @@
 }
 
 - (IBAction)openRouterKoolSS:(id)sender {
-    NSString *url = @"http://192.168.100.1/cgi-bin/luci//admin/vpn/shadowsocks";
+    NSString *url = @"http://openwrt/cgi-bin/luci//admin/koolsoft#/Module_koolss.asp";
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:url]];
 }
 
